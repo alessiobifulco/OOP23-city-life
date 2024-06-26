@@ -2,8 +2,9 @@ package unibo.citysimulation.model.business.utilities;
 
 import java.util.LinkedList;
 
-import unibo.citysimulation.model.business.impl.Business;
 import unibo.citysimulation.model.zone.Zone;
+import unibo.citysimulation.model.business.api.Business;
+import unibo.citysimulation.model.business.impl.BusinessData;
 
 /**
  * Represents a medium-sized business in the city simulation.
@@ -17,7 +18,8 @@ public class MediumBusiness extends Business {
      * @param zone the zone where the medium business is located
      */
     public MediumBusiness(final int id, final Zone zone) {
-        super(new BusinessData(
+        this.businessData =
+        new BusinessData(
             id,
             new LinkedList<>(),
             BusinessConfig.MEDIUM_OPENING_TIME,
@@ -28,6 +30,6 @@ public class MediumBusiness extends Business {
             BusinessConfig.MEDIUM_MIN_AGE,
             BusinessConfig.MEDIUM_MAX_AGE,
             BusinessConfig.MEDIUM_MAX_TARDINESS,
-            zone));
+            zone);
     }
 }
