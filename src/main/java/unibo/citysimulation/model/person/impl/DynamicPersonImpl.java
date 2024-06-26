@@ -4,6 +4,9 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ArrayList;
 
 import unibo.citysimulation.model.business.api.Business;
 import unibo.citysimulation.model.person.api.DynamicPerson;
@@ -11,10 +14,6 @@ import unibo.citysimulation.model.person.api.PersonData;
 import unibo.citysimulation.model.person.api.TransportStrategy;
 import unibo.citysimulation.model.transport.api.TransportLine;
 import unibo.citysimulation.utilities.ConstantAndResourceLoader;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ArrayList;
 
 /**
  * Represents a dynamic person that can change state based on the current time
@@ -28,13 +27,9 @@ public final class DynamicPersonImpl extends StaticPersonImpl implements Dynamic
     private int businessBegin;
     private int businessEnd;
     private final TransportStrategy transportStrategy;
-    private String name;
-    private static int counter = 0;
-    private static Map<PersonState, Integer> stateCounts = new HashMap<>();
-    private static List<DynamicPersonImpl> unchangedPersons = new ArrayList<>();
-    private static int count_increment = 0;
-    private static int count_decrement = 0;
-    private static Map<String, LineCount> lineCounts = new HashMap<>();
+    private static final Map<PersonState, Integer> stateCounts = new HashMap<>();
+    private static final List<DynamicPersonImpl> unchangedPersons = new ArrayList<>();
+    private static final Map<String, LineCount> lineCounts = new HashMap<>();
 
     /**
      * Constructs a new dynamic person with the given person data and money.
@@ -46,7 +41,6 @@ public final class DynamicPersonImpl extends StaticPersonImpl implements Dynamic
      */
     public DynamicPersonImpl(final PersonData personData, final int money, final Optional<Business> business) {
         super(personData, money, business);
-        this.name = personData.name();
         this.lastDestination = PersonState.WORKING;
         this.late = false;
         this.businessBegin = 0;
@@ -61,10 +55,14 @@ public final class DynamicPersonImpl extends StaticPersonImpl implements Dynamic
             unchangedPersons.add(this);
         } else {
             unchangedPersons.remove(this);
-            stateCounts.put(oldState, stateCounts.getOrDefault(oldState, 0) - 1);
-            stateCounts.put(newState, stateCounts.getOrDefault(newState, 0) + 1);
+            updateStateCounts(oldState, newState);
         }
         super.setState(newState);
+    }
+
+    private void updateStateCounts(PersonState oldState, PersonState newState) {
+        stateCounts.put(oldState, stateCounts.getOrDefault(oldState, 0) - 1);
+        stateCounts.put(newState, stateCounts.getOrDefault(newState, 0) + 1);
     }
 
     public static Map<PersonState, Integer> getCountsOfStates() {
@@ -76,13 +74,10 @@ public final class DynamicPersonImpl extends StaticPersonImpl implements Dynamic
     }
 
     private boolean shouldMove(final int currentTime, final int timeToMove, final int lineDuration) {
-        // if (super.getState() == PersonState.WORKING) {
-        // System.out.println("Current time: " + currentTime);
-        // System.out.println("Time to move: " + timeToMove);
-        // }
         if (getTransportLine().length == 0) {
             return false;
-        } else if (currentTime == timeToMove || late || (timeToMove == 86400 && currentTime == 0)) {
+        }
+        if (currentTime == timeToMove || late || (timeToMove == 86400 && currentTime == 0)) {
             if (transportStrategy.isCongested(List.of(getTransportLine()))) {
                 late = true;
                 return false;
@@ -107,8 +102,7 @@ public final class DynamicPersonImpl extends StaticPersonImpl implements Dynamic
     }
 
     private int calculateUpdatedTime(final LocalTime movingTime) {
-        LocalTime o = LocalTime.of(0, 0);
-        if (movingTime == o) {
+        if (movingTime.equals(LocalTime.MIDNIGHT)) {
             return 0;
         }
         return movingTime.toSecondOfDay() + random.nextInt(ConstantAndResourceLoader.MAX_MOVING_TIME_VARIATION)
@@ -120,18 +114,18 @@ public final class DynamicPersonImpl extends StaticPersonImpl implements Dynamic
                 || (this.lastArrivingTime == 86400 && currentTime.toSecondOfDay() == 0)) {
             this.setState(this.lastDestination);
             updatePosition();
-            // System.out.println("Congestion: " + getTransportLine()[0].getPersonInLine());
-            // System.out.println("Decrementing persons in line for " +
-            // getTransportLine()[0].getName());
-            for (TransportLine line : getTransportLine()) {
-                String lineName = line.getName();
-                lineCounts.putIfAbsent(lineName, new LineCount());
-                lineCounts.get(lineName).decrement();
-                // System.out.println("Person " + name + " is getting off the line " + lineName);
-            }
-            transportStrategy.decrementPersonsInLine(List.of(getTransportLine()));
+            decrementPersonsInLine();
             super.travel = false;
         }
+    }
+
+    private void decrementPersonsInLine() {
+        for (TransportLine line : getTransportLine()) {
+            String lineName = line.getName();
+            lineCounts.putIfAbsent(lineName, new LineCount());
+            lineCounts.get(lineName).decrement();
+        }
+        transportStrategy.decrementPersonsInLine(List.of(getTransportLine()));
     }
 
     /**
@@ -145,40 +139,6 @@ public final class DynamicPersonImpl extends StaticPersonImpl implements Dynamic
      */
     @Override
     public void checkState(final LocalTime currentTime) {
-        if (counter % 100 == 0) {
-            // System.out.println("DynamicPersonImpl.checkState");
-            // System.out.println("Name: " + name);
-            // System.out.println("State: " + super.getState());
-            // System.out.println("Current time: " + currentTime);
-            // System.out.println("Business begin: " + LocalTime.ofSecondOfDay(businessBegin
-            // % (24 * 60 * 60)));
-            // System.out.println("Business end: " + LocalTime.ofSecondOfDay(businessEnd %
-            // (24 * 60 * 60)));
-            // System.out.println("Trip duration: " +
-            // LocalTime.ofSecondOfDay(super.getTripDuration() % (24 * 60 * 60)));
-            // System.out.println("Last arriving time: " +
-            // LocalTime.ofSecondOfDay(lastArrivingTime % (24 * 60 * 60)));
-            // System.out.println("Last destination: " + lastDestination);
-            // System.out.println("Late: " + late);
-            // System.out.println("Lines: " + getTransportLine());
-            // if (getTransportLine().length > 0) {
-            // System.out.println("Transport line: " +
-            // getTransportLine()[0].getPersonInLine() + " "
-            // + getTransportLine()[0].getName());
-            // } else {
-            // System.out.println("Transport line: None");
-            // }
-            // for (Map.Entry<PersonState, Integer> entry : stateCounts.entrySet()) {
-            // System.out.println("State: " + entry.getKey() + " Count: " +
-            // entry.getValue());
-            // }
-            // for (Map.Entry<String, LineCount> entry : lineCounts.entrySet()) {
-            // System.out.println("Line: " + entry.getKey() + " Increment: " +
-            // entry.getValue().getIncrementCount()
-            // + " Decrement: " + entry.getValue().getDecrementCount());
-            // }
-        }
-        counter++;
         switch (super.getState()) {
             case MOVING -> handleArrival(currentTime);
             case WORKING -> handleHomeTransition(currentTime);
@@ -192,17 +152,20 @@ public final class DynamicPersonImpl extends StaticPersonImpl implements Dynamic
             this.setState(newState);
         } else {
             this.setState(PersonState.MOVING);
-            for (TransportLine line : getTransportLine()) {
-                String lineName = line.getName();
-                lineCounts.putIfAbsent(lineName, new LineCount());
-                lineCounts.get(lineName).increment();
-                // System.out.println("Person " + name + " is getting on the line " + lineName);
-            }
+            incrementPersonsInLine();
             super.travel = true;
-            transportStrategy.incrementPersonsInLine(List.of(getTransportLine()));
         }
         this.lastDestination = newState;
         this.updatePosition();
+    }
+
+    private void incrementPersonsInLine() {
+        for (TransportLine line : getTransportLine()) {
+            String lineName = line.getName();
+            lineCounts.putIfAbsent(lineName, new LineCount());
+            lineCounts.get(lineName).increment();
+        }
+        transportStrategy.incrementPersonsInLine(List.of(getTransportLine()));
     }
 
     @Override
