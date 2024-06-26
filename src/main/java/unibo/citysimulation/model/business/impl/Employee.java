@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import unibo.citysimulation.model.business.api.EmployeeBehavior;
-import unibo.citysimulation.model.business.impl.Business.BusinessData;
 import unibo.citysimulation.model.person.api.DynamicPerson;
 import unibo.citysimulation.utilities.Pair;
 
