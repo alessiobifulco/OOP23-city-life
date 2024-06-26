@@ -1,6 +1,6 @@
 package unibo.citysimulation.model.graphics.impl;
 
-import unibo.citysimulation.model.business.impl.Business;
+import unibo.citysimulation.model.business.api.Business;
 import unibo.citysimulation.model.person.api.DynamicPerson;
 import unibo.citysimulation.model.person.api.StaticPerson.PersonState;
 import unibo.citysimulation.model.transport.api.TransportLine;

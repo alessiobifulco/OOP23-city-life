@@ -1,13 +1,12 @@
 package unibo.citysimulation.model.clock.impl;
 
-import unibo.citysimulation.model.business.impl.Business;
+import unibo.citysimulation.model.business.api.Business;
 import unibo.citysimulation.model.business.impl.EmploymentOfficeManager;
 import unibo.citysimulation.model.business.utilities.EmploymentOfficeData;
 import unibo.citysimulation.model.clock.api.ClockObserver;
 
 import java.util.List;
 import java.time.LocalTime;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 

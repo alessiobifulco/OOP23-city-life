@@ -5,7 +5,7 @@
 package unibo.citysimulation.model;
 
 import unibo.citysimulation.model.business.utilities.EmploymentOfficeData;
-import unibo.citysimulation.model.business.impl.Business;
+import unibo.citysimulation.model.business.api.Business;
 import unibo.citysimulation.model.business.impl.BusinessFactoryImpl;
 import unibo.citysimulation.model.clock.api.ClockModel;
 import unibo.citysimulation.model.clock.impl.ClockModelImpl;

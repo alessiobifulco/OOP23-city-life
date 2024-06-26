@@ -1,6 +1,6 @@
 package unibo.citylife.model.person;
 
-import unibo.citysimulation.model.business.impl.Business;
+import unibo.citysimulation.model.business.api.Business;
 import unibo.citysimulation.model.business.impl.BusinessFactoryImpl;
 import unibo.citysimulation.model.business.utilities.BusinessType;
 import unibo.citysimulation.model.person.api.PersonData;

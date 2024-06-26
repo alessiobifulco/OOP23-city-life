@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-import unibo.citysimulation.model.business.impl.Business;
+import unibo.citysimulation.model.business.api.Business;
 import unibo.citysimulation.model.person.api.DynamicPerson;
 import unibo.citysimulation.model.person.api.PersonData;
 import unibo.citysimulation.model.person.api.TransportStrategy;
@@ -15,7 +15,6 @@ import unibo.citysimulation.utilities.ConstantAndResourceLoader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Represents a dynamic person that can change state based on the current time

@@ -2,7 +2,7 @@ package unibo.citysimulation.model.person.api;
 
 import java.util.Optional;
 
-import unibo.citysimulation.model.business.impl.Business;
+import unibo.citysimulation.model.business.api.Business;
 import unibo.citysimulation.model.transport.api.TransportLine;
 import unibo.citysimulation.utilities.Pair;
 

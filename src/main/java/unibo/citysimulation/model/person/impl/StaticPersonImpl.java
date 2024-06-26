@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.Arrays;
 import java.util.Random;
 
-import unibo.citysimulation.model.business.impl.Business;
+import unibo.citysimulation.model.business.api.Business;
 import unibo.citysimulation.model.person.api.PersonData;
 import unibo.citysimulation.model.person.api.StaticPerson;
 import unibo.citysimulation.model.transport.api.TransportLine;

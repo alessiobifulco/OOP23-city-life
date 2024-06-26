@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import unibo.citysimulation.model.business.api.Business;
 import unibo.citysimulation.model.business.api.EmploymentOfficeBehavior;
 import unibo.citysimulation.model.business.utilities.EmploymentOfficeData;
 import unibo.citysimulation.model.person.api.DynamicPerson;

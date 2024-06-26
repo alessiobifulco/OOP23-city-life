@@ -1,6 +1,6 @@
 package unibo.citysimulation.model;
 
-import unibo.citysimulation.model.business.impl.Business;
+import unibo.citysimulation.model.business.api.Business;
 import unibo.citysimulation.model.clock.api.ClockModel;
 import unibo.citysimulation.model.graphics.impl.GraphicsModelImpl;
 import unibo.citysimulation.model.map.impl.MapModelImpl;

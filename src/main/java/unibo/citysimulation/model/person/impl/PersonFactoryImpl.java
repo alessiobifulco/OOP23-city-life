@@ -1,6 +1,6 @@
 package unibo.citysimulation.model.person.impl;
 
-import unibo.citysimulation.model.business.impl.Business;
+import unibo.citysimulation.model.business.api.Business;
 import unibo.citysimulation.model.business.impl.Employee;
 import unibo.citysimulation.model.person.api.DynamicPerson;
 import unibo.citysimulation.model.person.api.PersonData;
@@ -71,11 +71,14 @@ public final class PersonFactoryImpl implements PersonFactory {
         for (final DynamicPerson person : people) {
             boolean hired = false;
             for (final Business business : businesses) {
-                if (business.hire(new Employee(person, business.getBusinessData())) 
-                && !business.getBusinessData().zone().equals(person.getPersonData().residenceZone())) {
+                if (person.getPersonData().age() >= business.getBusinessData().minAge()
+                        && person.getPersonData().age() <= business.getBusinessData().maxAge()
+                        && business.getBusinessData().employees().size() < business.getBusinessData().maxEmployees() 
+                        && !business.getBusinessData().zone().equals(person.getPersonData().residenceZone())) {
+                    business.hire(new Employee(person, business.getBusinessData()));
                     person.setBusiness(Optional.of(business));
-                    person.setBusinessBegin(business.getBusinessData().opLocalTime());
-                    person.setBusinessEnd(business.getBusinessData().clLocalTime());
+                    person.setBusinessBegin(business.getBusinessData().openingTime());
+                    person.setBusinessEnd(business.getBusinessData().closingTime());
                     hired = true;
                     break;
                 }

@@ -1,7 +1,5 @@
 package unibo.citysimulation.model.business.api;
 
-import unibo.citysimulation.model.business.impl.Business;
-
 /**
  * The EmploymentOfficeBehavior interface defines methods for handling employees in a business.
  */
