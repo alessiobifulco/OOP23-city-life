@@ -1,7 +1,6 @@
 package unibo.citysimulation.model.business.api;
 
 import java.time.LocalTime;
-import java.util.Optional;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import unibo.citysimulation.model.business.impl.BusinessData;
@@ -12,66 +11,30 @@ import unibo.citysimulation.model.business.impl.Employee;
  */
 @SuppressFBWarnings(value = "EI", justification = """
     """)
-public abstract class Business implements BusinessBehavior {
-    protected BusinessData businessData;
-
-    /**
-     * Gets the BusinessData of this business.
-     *
-     * @return the BusinessData of this business
-     */
-    public BusinessData getBusinessData() {
-        return businessData;
-    }
-    /**
-     * Hires an employee for the business.
-     * 
-     * @param employee the employee to hire
-     * @return true if the employee was hired successfully, false otherwise
-     */
-    @Override
-    public final void hire(final Employee employee) {
-        if (employee != null && businessData.employees().size() < businessData.maxEmployees()) {
-            businessData.employees().add(employee);
-        }
-    }
-
+public interface Business  {
+    void hire(Employee employee);
     /**
      * Fires an employee from the business.
      * 
-     * @param employee the employee to fire
+     * @param employee the employee to be fired
      */
-    @Override
-    public final void fire(final Employee employee) {
-        if (employee != null && employee.count() > businessData.maxTardiness()) {
-            businessData.employees().remove(employee);
-        }
-    }
+    void fire(Employee employee);
 
     /**
-     * Checks the delays of all employees at the current time.
+     * Checks the delays of the employee based on the current time.
      * 
      * @param currentTime the current time
      */
-    @Override
-    public void checkEmployeeDelays(final LocalTime currentTime) {
-        if (currentTime.equals(businessData.openingTime())) {
-            for (final Employee employee : businessData.employees()) {
-                if (employee.isLate(Optional.of(businessData.position()))) {
-                    employee.incrementDelayCount();
-                }
-            }
-        }
-    }
+    void checkEmployeeDelays(LocalTime currentTime);
 
     /**
-     * Calculates the total pay for the business.
+     * Calculates the pay for the employee.
      * 
-     * @return the total pay for the business
+     * @return the pay amount
      */
-    @Override
-    public final double calculatePay() {
-        final double hoursworked = businessData.closingTime().getHour() - businessData.openingTime().getHour();
-        return hoursworked * businessData.revenue();
-    }
+    double calculatePay();
+
+    BusinessData getBusinessData();
+
 }
+    
