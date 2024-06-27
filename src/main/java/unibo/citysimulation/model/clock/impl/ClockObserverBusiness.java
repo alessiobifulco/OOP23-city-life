@@ -17,8 +17,8 @@ public class ClockObserverBusiness implements ClockObserver {
     private final List<Business> businesses;
     private final EmploymentOfficeManager employmentManager;
     private final Map<Business, Integer> businessHiredCountMap;
-    private static final LocalTime OP_TIME = LocalTime.of(0, 0);
-    private static final LocalTime CL_TIME = LocalTime.of(23, 0);
+    private static final LocalTime HR_TIME = LocalTime.of(0, 0);
+    private static final LocalTime FR_TIME = LocalTime.of(23, 0);
 
     /**
      * Constructs a ClockObserverBusiness object with the given list of businesses and employment office.
@@ -42,13 +42,19 @@ public class ClockObserverBusiness implements ClockObserver {
     public void onTimeUpdate(final LocalTime currentTime, final int currentDay) {
         for (final Business business : businesses) {
             business.checkEmployeeDelays(currentTime);
-            if (currentTime.equals(OP_TIME)) {
-                employmentManager.handleEmployees(business);
+            if (currentTime.equals(FR_TIME)) {
+                employmentManager.handleEmployeeHiring(business);
                 businessHiredCountMap.put(business, business.getBusinessData().employees().size());
-            }
-            if (currentTime.equals(CL_TIME)) {
                 employmentManager.handleEmployeePay(business);
             }
+            if (currentTime.equals(HR_TIME)) {
+                employmentManager.handleEmployeeFiring(business);
+                businessHiredCountMap.put(business, business.getBusinessData().employees().size());
+            }
         }
+    }
+
+    protected Map<Business, Integer> getBusinessHiredCountMap() {
+        return this.businessHiredCountMap;
     }
 }

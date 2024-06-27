@@ -11,7 +11,7 @@ import unibo.citysimulation.utilities.Pair;
  * Represents an employee in the city simulation.
  */
 @SuppressFBWarnings(value = "EI", justification = """
-""")
+        """)
 public class Employee implements EmployeeBehavior {
     private final DynamicPerson person;
     private final BusinessData businessData;
@@ -30,7 +30,8 @@ public class Employee implements EmployeeBehavior {
     }
 
     /**
-     * Constructs a new Employee object with the given person, business data, and delay count.
+     * Constructs a new Employee object with the given person, business data, and
+     * delay count.
      * 
      * @param person       The dynamic person associated with the employee.
      * @param businessData The business data associated with the employee.
