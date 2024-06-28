@@ -21,7 +21,7 @@ public interface EmploymentOfficeBehavior {
      * @param business The business for which to handle employee hiring.
      * @return The number of people hired.
      */
-    int handleEmployeeHiring(Business business);
+    void handleEmployeeHiring(Business business);
 
     /**
      * Handles the payment of employees for the specified business.

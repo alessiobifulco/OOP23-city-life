@@ -121,7 +121,9 @@ public final class CityModelImpl implements CityModel {
 
         for (final List<DynamicPerson> group : people) {
             for (final DynamicPerson person : group) {
-                employmentOfficeData.disoccupied().add(person);
+                if (person.getBusiness().isEmpty()) {
+                    employmentOfficeData.disoccupied().add(person); 
+                }   
             }
         }
         clockModel.addObserver(new ClockObserverPerson(people));
