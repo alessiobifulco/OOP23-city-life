@@ -62,4 +62,11 @@ public interface WindowView {
      * @return The map panel.
      */
     MapPanel getMapPanel();
+
+    /**
+     * Shows the information of a person.
+     *
+     * @param info The information of the person.
+     */
+    void showPersonInfo(String info);
 }
