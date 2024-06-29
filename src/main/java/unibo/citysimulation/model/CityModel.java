@@ -147,4 +147,11 @@ public interface CityModel {
      * @param numberOfBusinesses The number of businesses to remove.
      */
     void removeBusinesses(int numberOfBusinesses);
+
+    /**
+     * Returns a random person from the city.
+     *
+     * @return An Optional containing a random person, or an empty Optional if there are no people in the city.
+     */
+    Optional<DynamicPerson> getRandomPerson();
 }
