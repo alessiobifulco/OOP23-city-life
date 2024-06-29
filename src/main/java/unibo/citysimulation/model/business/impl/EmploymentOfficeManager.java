@@ -4,6 +4,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.Random;
 
 import unibo.citysimulation.model.business.api.Business;
 import unibo.citysimulation.model.business.api.EmploymentOfficeBehavior;
@@ -16,10 +17,9 @@ import unibo.citysimulation.model.person.api.DynamicPerson;
 public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
 
     private final EmploymentOfficeData employmentOffice;
+    private final Random random;
     private static final int ZERO = 0;
     private static final LocalTime TIME_ZERO = LocalTime.of(ZERO, ZERO);
-    private static final int MAX_FIRING_PER_CYCLE = 3;
-    private static final int MAX_HIRING_PER_CYCLE = 2;
 
     /**
      * Constructs an EmploymentOfficeManager with the given employment office.
@@ -28,6 +28,7 @@ public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
      */
     public EmploymentOfficeManager(final EmploymentOfficeData employmentOffice) {
         this.employmentOffice = employmentOffice;
+        this.random = new Random();
     }
 
     /**
@@ -50,10 +51,9 @@ public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
      */
     @Override
     public final void handleEmployeeFiring(final Business business) {
-        final List<Employee> employeesToFire = getEmployeesToFire(business).stream()
-                .limit(MAX_FIRING_PER_CYCLE)
-                .collect(Collectors.toList());
-        fireEmployees(business, employeesToFire);
+        final List<Employee> employeesToFire = getEmployeesToFire(business);
+        int numToFire = random.nextInt(employeesToFire.size() + 1);
+        fireEmployees(business, employeesToFire.stream().limit(numToFire).collect(Collectors.toList()));
     }
 
     /**
@@ -63,11 +63,11 @@ public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
      */
     @Override
     public final void handleEmployeeHiring(final Business business) {
-        int hires = 0;
-        while (canHire(business) && hires < MAX_HIRING_PER_CYCLE) {
+        while (canHire(business)) {
             final Optional<List<DynamicPerson>> peopleToHire = getPeopleToHire(business);
             if (peopleToHire.isPresent()) {
-                hires += hirePeople(business, peopleToHire.get());
+                int numToHire = random.nextInt(peopleToHire.get().size() + 1);
+                hirePeople(business, peopleToHire.get().stream().limit(numToHire).collect(Collectors.toList()));
             } else {
                 break;
             }
@@ -105,14 +105,9 @@ public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
         final int availableSpots = business.getBusinessData().maxEmployees() - business.getBusinessData().employees().size();
         if (availableSpots > 0) {
             final List<DynamicPerson> disoccupiedPeople = employmentOffice.disoccupied();
-            System.out.println("Disoccupied people: " + disoccupiedPeople.size());
-
             final List<DynamicPerson> eligiblePeople = disoccupiedPeople.stream()
                     .filter(person -> !person.getPersonData().residenceZone().equals(business.getBusinessData().zone()))
                     .collect(Collectors.toList());
-
-            System.out.println("Eligible people: " + eligiblePeople.size());
-
             if (!eligiblePeople.isEmpty()) {
                 return Optional.of(eligiblePeople.subList(0, Math.min(availableSpots, eligiblePeople.size())));
             }
@@ -130,11 +125,13 @@ public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
     private int hirePeople(final Business business, final List<DynamicPerson> peopleToHire) {
         int hiredCount = 0;
         for (DynamicPerson person : peopleToHire) {
-            if (canHire(business) && hiredCount < MAX_HIRING_PER_CYCLE) {
+            if (canHire(business)) {
                 final Employee employee = new Employee(person, business.getBusinessData());
                 business.hire(employee);
                 employmentOffice.disoccupied().remove(person);
                 person.setBusiness(Optional.of(business));
+                person.setBusinessBegin(business.getBusinessData().openingTime());
+                person.setBusinessEnd(business.getBusinessData().closingTime());
                 hiredCount++;
             }
         }
