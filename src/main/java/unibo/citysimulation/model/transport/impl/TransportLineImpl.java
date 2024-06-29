@@ -4,7 +4,6 @@ import unibo.citysimulation.utilities.Pair;
 import unibo.citysimulation.model.transport.api.TransportLine;
 import unibo.citysimulation.model.zone.Zone;
 
-
 /**
  * Represents a transport line within the city simulation.
  */
@@ -14,12 +13,14 @@ public class TransportLineImpl implements TransportLine {
     private int personInLine;
     private final int duration;
     private final Pair<Zone, Zone> link;
+
     /**
      * Constructor for TransportLineImpl.
-     * @param name
-     * @param capacity
-     * @param duration
-     * @param link
+     *
+     * @param name     the name of the transport line
+     * @param capacity the capacity of the transport line
+     * @param duration the duration of the transport line
+     * @param link     the pair of zones that the transport line links
      */
     public TransportLineImpl(final String name, final int capacity, final int duration, final Pair<Zone, Zone> link) {
         this.name = name;
@@ -27,10 +28,9 @@ public class TransportLineImpl implements TransportLine {
         this.duration = duration;
         this.link = link;
     }
-     /**
+
+    /**
      * Returns the link between zones for this transport line.
-     * This method can be safely overridden in subclasses, if any.
-     * Subclasses should ensure that the returned link is not null.
      *
      * @return the link between zones for this transport line
      */
@@ -38,9 +38,9 @@ public class TransportLineImpl implements TransportLine {
     public Pair<Zone, Zone> getLink() {
         return link;
     }
+
     /**
      * Returns the capacity of this transport line.
-     * This method can be safely overridden in subclasses, if any.
      *
      * @return the capacity of this transport line
      */
@@ -48,9 +48,9 @@ public class TransportLineImpl implements TransportLine {
     public int getCapacity() {
         return capacity;
     }
+
     /**
      * Sets the capacity of this transport line.
-     * This method can be safely overridden in subclasses, if any.
      *
      * @param capacity the new capacity of this transport line
      */
@@ -58,9 +58,9 @@ public class TransportLineImpl implements TransportLine {
     public void setCapacity(final int capacity) {
         this.capacity = capacity;
     }
+
     /**
      * Returns the name of this transport line.
-     * This method can be safely overridden in subclasses, if any.
      *
      * @return the name of this transport line
      */
@@ -68,9 +68,9 @@ public class TransportLineImpl implements TransportLine {
     public String getName() {
         return name;
     }
+
     /**
      * Returns the number of people in line.
-     * This method can be safely overridden in subclasses, if any.
      *
      * @return the number of people in line
      */
@@ -89,7 +89,6 @@ public class TransportLineImpl implements TransportLine {
 
     /**
      * Returns the congestion of the transport line as a percentage of the capacity.
-     * This method can be safely overridden in subclasses, if any.
      *
      * @return the congestion of the transport line
      */
@@ -97,9 +96,9 @@ public class TransportLineImpl implements TransportLine {
     public double getCongestion() {
         return (double) personInLine * 100 / capacity;
     }
+
     /**
      * Returns the duration of the transport line.
-     * This method can be safely overridden in subclasses, if any.
      *
      * @return the duration of the transport line
      */
@@ -107,9 +106,9 @@ public class TransportLineImpl implements TransportLine {
     public int getDuration() {
         return duration;
     }
+
     /**
      * Returns the pair of zones that the transport line links.
-     * This method can be safely overridden in subclasses, if any.
      *
      * @return the pair of zones that the transport line links
      */
@@ -117,22 +116,24 @@ public class TransportLineImpl implements TransportLine {
     public Pair<Zone, Zone> getLinkedZones() {
         return link;
     }
+
     /**
      * Increments the number of people in line by one.
-     * This method can be safely overridden in subclasses, if any.
      */
     @Override
     public void incrementPersonInLine() {
-        personInLine++;
+        if (personInLine < capacity) {
+            personInLine++;
+        }
     }
+
     /**
      * Decrements the number of people in line by one.
-     * This method can be safely overridden in subclasses, if any.
      */
     @Override
     public void decrementPersonInLine() {
         if (personInLine > 0) {
-        personInLine--;
+            personInLine--;
         }
     }
 }

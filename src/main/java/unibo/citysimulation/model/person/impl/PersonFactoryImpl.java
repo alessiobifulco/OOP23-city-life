@@ -1,6 +1,6 @@
 package unibo.citysimulation.model.person.impl;
 
-import unibo.citysimulation.model.business.impl.Business;
+import unibo.citysimulation.model.business.api.Business;
 import unibo.citysimulation.model.business.impl.Employee;
 import unibo.citysimulation.model.person.api.DynamicPerson;
 import unibo.citysimulation.model.person.api.PersonData;
@@ -11,6 +11,7 @@ import unibo.citysimulation.utilities.Pair;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -58,18 +59,33 @@ public final class PersonFactoryImpl implements PersonFactory {
             final List<Business> businesses, final Zone residenceZone) {
         final List<DynamicPerson> people = new ArrayList<>();
         for (int i = 0; i < numberOfPeople; i++) {
-            final List<Business> eligibleBusinesses = businesses.stream()
-                    .filter(business -> !business.getBusinessData().zone().equals(residenceZone))
-                    .collect(Collectors.toList());
-            final Business business = eligibleBusinesses.get(random.nextInt(eligibleBusinesses.size()));
             final DynamicPerson person = createPerson(
                     "Person" + groupCounter + i,
-                    random.nextInt(ConstantAndResourceLoader.MAX_RANDOM_AGE) + ConstantAndResourceLoader.MIN_AGE,
-                    business,
+                    random.nextInt((ConstantAndResourceLoader.MAX_RANDOM_AGE - ConstantAndResourceLoader.MIN_AGE)
+                    + 1) + ConstantAndResourceLoader.MIN_AGE,
+                    Optional.empty(), 
                     residenceZone,
                     random.nextInt(moneyMinMax.getSecond() - moneyMinMax.getFirst()) + moneyMinMax.getFirst());
-                business.hire(new Employee(person, business.getBusinessData()));
             people.add(person);
+        }
+        for (final DynamicPerson person : people) {
+            boolean hired = false;
+            for (final Business business : businesses) {
+                if (person.getPersonData().age() >= business.getBusinessData().minAge()
+                        && person.getPersonData().age() <= business.getBusinessData().maxAge()
+                        && business.getBusinessData().employees().size() < business.getBusinessData().maxEmployees() 
+                        && !business.getBusinessData().zone().equals(person.getPersonData().residenceZone())) {
+                    business.hire(new Employee(person, business.getBusinessData()));
+                    person.setBusiness(Optional.of(business));
+                    person.setBusinessBegin(business.getBusinessData().openingTime());
+                    person.setBusinessEnd(business.getBusinessData().closingTime());
+                    hired = true;
+                    break;
+                }
+            }
+            if (hired) {
+                continue;
+            }
         }
         return people;
     }
@@ -86,8 +102,8 @@ public final class PersonFactoryImpl implements PersonFactory {
      * @return A DynamicPerson object.
      */
     @Override
-    public DynamicPerson createPerson(final String name, final int age, final Business business,
+    public DynamicPerson createPerson(final String name, final int age, final Optional<Business> business,
             final Zone residenceZone, final int money) {
-        return new DynamicPersonImpl(new PersonData(name, age, business, residenceZone), money);
+                return new DynamicPersonImpl(new PersonData(name, age, residenceZone), money, business);
     }
 }

@@ -50,12 +50,17 @@ public class LegendPanel extends JFrame {
         transportTitle.setFont(new Font("Serif", Font.BOLD, FONT_SIZE));
         legendPanel.add(transportTitle);
 
-
         for (int i = 0; i < linesName.size(); i++) {
             final String lineName = linesName.get(i);
             final Color color = colors.get(i % colors.size());
             legendPanel.add(createLegendItem(lineName, color));
         }
+
+        legendPanel.add(Box.createVerticalStrut(10)); // Spacing
+        final JLabel businessOccupationTitle = new JLabel("Business Occupation:");
+        businessOccupationTitle.setFont(new Font("Serif", Font.BOLD, FONT_SIZE));
+        legendPanel.add(businessOccupationTitle);
+        legendPanel.add(createLegendItem("Business Occupation", Color.BLUE));
 
         final JScrollPane scrollPane = new JScrollPane(legendPanel);
         add(scrollPane);

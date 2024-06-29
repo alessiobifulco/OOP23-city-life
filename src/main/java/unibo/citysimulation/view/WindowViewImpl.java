@@ -12,6 +12,7 @@ import unibo.citysimulation.view.sidepanels.graphics.GraphicsPanelImpl;
 
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -163,5 +164,10 @@ public final class WindowViewImpl extends JFrame implements WindowView {
     @Override
     public MapPanel getMapPanel() {
         return mapPanel;
+    }
+
+    @Override
+    public void showPersonInfo(String info) {
+        JOptionPane.showMessageDialog(null, info, "Person Info", JOptionPane.INFORMATION_MESSAGE);
     }
 }

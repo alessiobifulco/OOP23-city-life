@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import unibo.citysimulation.model.business.api.EmployeeBehavior;
-import unibo.citysimulation.model.business.impl.Business.BusinessData;
+import unibo.citysimulation.model.business.utilities.BusinessData;
 import unibo.citysimulation.model.person.api.DynamicPerson;
 import unibo.citysimulation.utilities.Pair;
 
@@ -12,7 +12,7 @@ import unibo.citysimulation.utilities.Pair;
  * Represents an employee in the city simulation.
  */
 @SuppressFBWarnings(value = "EI", justification = """
-""")
+        """)
 public class Employee implements EmployeeBehavior {
     private final DynamicPerson person;
     private final BusinessData businessData;
@@ -28,19 +28,6 @@ public class Employee implements EmployeeBehavior {
         this.person = person;
         this.businessData = businessData;
         this.count = 0;
-    }
-
-    /**
-     * Constructs a new Employee object with the given person, business data, and delay count.
-     * 
-     * @param person       The dynamic person associated with the employee.
-     * @param businessData The business data associated with the employee.
-     * @param count        The initial delay count of the employee.
-     */
-    public Employee(final DynamicPerson person, final BusinessData businessData, final int count) {
-        this.person = person;
-        this.businessData = businessData;
-        this.count = count;
     }
 
     /**

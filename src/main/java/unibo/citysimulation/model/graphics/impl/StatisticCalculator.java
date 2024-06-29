@@ -1,6 +1,7 @@
 package unibo.citysimulation.model.graphics.impl;
 
-import unibo.citysimulation.model.business.impl.Business;
+import unibo.citysimulation.model.business.api.Business;
+import unibo.citysimulation.model.business.utilities.BusinessType;
 import unibo.citysimulation.model.person.api.DynamicPerson;
 import unibo.citysimulation.model.person.api.StaticPerson.PersonState;
 import unibo.citysimulation.model.transport.api.TransportLine;
@@ -10,12 +11,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Utility class for calculating various statistics related to the city simulation.
- * This includes calculations for people states, transport line congestion levels, and business occupation percentages.
+ * Utility class for calculating various statistics related to the city
+ * simulation.
+ * This includes calculations for people states, transport line congestion
+ * levels, and business occupation percentages.
  */
 public final class StatisticCalculator {
 
-    private StatisticCalculator() { }
+    private StatisticCalculator() {
+    }
 
     /**
      * Calculates the percentage of people in each state (AT_HOME, MOVING, WORKING)
@@ -53,12 +57,32 @@ public final class StatisticCalculator {
      * Calculates the occupation percentage of each business in the given list.
      *
      * @param businesses the list of businesses
-     * @return a list of integers representing the occupation percentage of each business
+     * @return a list of integers representing the occupation percentage of each
+     *         business
      */
     static List<Integer> getBusinessesOccupation(final List<Business> businesses) {
-        return businesses.stream()
-                .map(business -> (int) ((double) business.getBusinessData().employees().size() 
-                / business.getBusinessData().maxEmployees() * 100))
+        int smallOccupation = calculateBusinessOccupation(businesses, BusinessType.SMALL);
+        int mediumOccupation = calculateBusinessOccupation(businesses, BusinessType.MEDIUM);
+        int bigOccupation = calculateBusinessOccupation(businesses, BusinessType.BIG);
+
+        return Arrays.asList(smallOccupation, mediumOccupation, bigOccupation);
+    }
+
+    private static int calculateBusinessOccupation(final List<Business> businesses, final BusinessType type) {
+        List<Business> filteredBusinesses = businesses.stream()
+                .filter(business -> business.getBusinessType() == type)
                 .collect(Collectors.toList());
+
+        if (filteredBusinesses.isEmpty()) {
+            return 0;
+        }
+
+        double totalOccupation = filteredBusinesses.stream()
+                .mapToDouble(business -> (double) business.getBusinessData().employees().size()
+                        / business.getBusinessData().maxEmployees() * 100)
+                .average()
+                .orElse(0);
+
+        return (int) totalOccupation;
     }
 }

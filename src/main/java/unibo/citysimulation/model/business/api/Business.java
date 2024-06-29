@@ -3,18 +3,15 @@ package unibo.citysimulation.model.business.api;
 import java.time.LocalTime;
 
 import unibo.citysimulation.model.business.impl.Employee;
+import unibo.citysimulation.model.business.utilities.BusinessData;
+import unibo.citysimulation.model.business.utilities.BusinessType;
 
 /**
- * The interface representing a business behavior.
+ * The abstract class representing a business in the city simulation.
  */
-public interface BusinessBehavior {
-    /**
-     * Hires an employee for the business.
-     *
-     * @param employee the employee to be hired
-     * @return true if the employee is successfully hired, false otherwise
-     */
-    boolean hire(Employee employee);
+
+public interface Business  {
+    void hire(Employee employee);
     /**
      * Fires an employee from the business.
      * 
@@ -35,4 +32,10 @@ public interface BusinessBehavior {
      * @return the pay amount
      */
     double calculatePay();
+
+    BusinessData getBusinessData();
+
+    BusinessType getBusinessType();
+
 }
+    

@@ -2,6 +2,7 @@ package unibo.citysimulation.model.person.api;
 
 import java.util.Optional;
 
+import unibo.citysimulation.model.business.api.Business;
 import unibo.citysimulation.model.transport.api.TransportLine;
 import unibo.citysimulation.utilities.Pair;
 
@@ -54,6 +55,13 @@ public interface StaticPerson {
     int getTripDuration();
 
     /**
+     * Sets the state of the person.
+     * 
+     * @param state the new state of the person.
+     */
+    void setState(PersonState state);
+
+    /**
      * 
      * @return the transport lines used by the person in his daily trip.
      */
@@ -64,4 +72,19 @@ public interface StaticPerson {
      * @return the actual position of the person.
      */
     Optional<Pair<Integer, Integer>> getPosition();
+
+    /**
+     * Returns an Optional object representing the business associated with this person.
+     *
+     * @return an Optional object containing the business associated with this person, 
+     * or an empty Optional if no business is associated.
+     */
+    Optional<Business> getBusiness();
+
+    /**
+     * Sets the business for the person.
+     *
+     * @param business an optional representing the business the person is associated with
+     */
+    void setBusiness(Optional<Business> business);
 }

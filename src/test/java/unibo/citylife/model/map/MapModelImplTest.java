@@ -2,7 +2,8 @@ package unibo.citylife.model.map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import unibo.citysimulation.model.business.impl.Business;
+
+import unibo.citysimulation.model.business.api.Business;
 import unibo.citysimulation.model.business.impl.BusinessFactoryImpl;
 import unibo.citysimulation.model.map.impl.ImageHandler;
 import unibo.citysimulation.model.map.impl.MapModelImpl;

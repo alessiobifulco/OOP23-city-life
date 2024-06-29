@@ -52,6 +52,7 @@ dependencies {
     testImplementation("org.mockito:mockito-core:4.8.0")
     testImplementation("org.mockito:mockito-junit-jupiter:4.8.0")
     testImplementation("org.mockito:mockito-core:4.6.1")
+    testImplementation("org.mockito:mockito-inline:3.7.7")
 }
  
 application {

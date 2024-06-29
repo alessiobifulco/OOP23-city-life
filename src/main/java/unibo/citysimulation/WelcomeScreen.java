@@ -75,11 +75,13 @@ public class WelcomeScreen extends JFrame {
         public void actionPerformed(final ActionEvent e) {
             // Show the about dialog
             JOptionPane.showMessageDialog(WelcomeScreen.this,
-                    "City-simulation is a project developed by the students of the Object Oriented Programing course "
-                            + "at the University of Bologna.\n"
-                            + "The project aims to simulate a city and its traffic, with the goal of improving the "
-                            + "quality of life of its citizens.\n"
-                            + "The project is open-source and can be found on GitHub");
+                    "City-simulation is a project developed by the students of the Object Oriented Programing course \"\r\n" + //
+                                                "                            + \"at the University of Bologna.\\n" + //
+                                                "\"\r\n" + //
+                                                "                            + \"The project aims to simulate a city and its traffic, with the goal of improving the \"\r\n" + //
+                                                "                            + \"quality of life of its citizens.\\n" + //
+                                                "\"\r\n" + //
+                                                "                            + \"The project is open-source and can be found on GitHub");
         }
     });
     buttonPanel.add(aboutButton);

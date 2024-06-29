@@ -4,6 +4,7 @@ package unibo.citylife.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import unibo.citysimulation.model.InputModel;
+import unibo.citysimulation.model.InputModelImpl;
 import unibo.citysimulation.utilities.ConstantAndResourceLoader;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -28,7 +29,7 @@ final class InputModelTest {
      */
     @BeforeEach
     void setUp() {
-        inputModel = new InputModel();
+        inputModel = new InputModelImpl();
         inputModel.addNumberOfBusiness(INITIAL_BUSINESS_COUNT);
     }
 

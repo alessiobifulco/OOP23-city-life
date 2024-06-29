@@ -1,9 +1,7 @@
 package unibo.citysimulation.model.business.api;
 
-import unibo.citysimulation.model.business.impl.Business;
-
 /**
- * The HandleEmployye interface defines methods for handling employees in a business.
+ * The EmploymentOfficeBehavior interface defines methods for handling employees in a business.
  */
 public interface EmploymentOfficeBehavior {
     /**
@@ -14,7 +12,8 @@ public interface EmploymentOfficeBehavior {
      * @param business The business for which to handle employee firing.
      * @param hiredCount The number of people hired previously.
      */
-    void handleEmployeeFiring(Business business, int hiredCount);
+    void handleEmployeeFiring(Business business);
+
     /**
      * Handles the hiring of employees for the specified business.
      * Hires a minimum of 4 employees from the employment office's disoccupied people list 
@@ -23,12 +22,22 @@ public interface EmploymentOfficeBehavior {
      * @param business The business for which to handle employee hiring.
      * @return The number of people hired.
      */
-    int handleEmployeeHiring(Business business);
+    void handleEmployeeHiring(Business business);
+
     /**
      * Handles the payment of employees for the specified business.
      * Pays each employee in the business the amount of money they are owed.
      * 
      * @param business The business for which to handle employee payment.
      */
-    void handleEmployyePay(Business business);
+    void handleEmployeePay(Business business);
+    
+    /**
+     * Handles both the firing and hiring of employees for the specified business.
+     * Ensures that all employees who should be fired are fired and continues to hire employees
+     * until the maximum number of employees is reached.
+     * 
+     * @param business The business for which to handle employee management.
+     */
+    void handleEmployees(Business business);
 }

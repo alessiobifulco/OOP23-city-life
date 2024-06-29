@@ -1,6 +1,6 @@
 package unibo.citysimulation.model;
 
-import unibo.citysimulation.model.business.impl.Business;
+import unibo.citysimulation.model.business.api.Business;
 import unibo.citysimulation.model.clock.api.ClockModel;
 import unibo.citysimulation.model.graphics.api.GraphicsModel;
 import unibo.citysimulation.model.map.api.MapModel;
@@ -140,4 +140,18 @@ public interface CityModel {
      * @return The number of businesses in the zone.
      */
     int getBusinessesInZone(String zoneName);
+
+    /**
+     * Removes the specified number of businesses from the city.
+     *
+     * @param numberOfBusinesses The number of businesses to remove.
+     */
+    void removeBusinesses(int numberOfBusinesses);
+
+    /**
+     * Returns a random person from the city.
+     *
+     * @return An Optional containing a random person, or an empty Optional if there are no people in the city.
+     */
+    Optional<DynamicPerson> getRandomPerson();
 }

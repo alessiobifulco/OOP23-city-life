@@ -26,7 +26,7 @@ class CityModelTest {
     private static final int TEST_ZONE_Y = 5;
 
     @BeforeEach
-    void setUp() {
+    void setUpCityModel() {
         cityModel = new CityModelImpl();
         cityModel.createEntities(); // assuming this method initializes people and businesses
     }
