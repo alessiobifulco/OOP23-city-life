@@ -1,40 +1,42 @@
-package unibo.citysimulation.model.business.utilities;
+package unibo.citysimulation.model.business.impl;
 
 import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.Optional;
 
-import unibo.citysimulation.model.zone.Zone;
 import unibo.citysimulation.model.business.api.Business;
-import unibo.citysimulation.model.business.impl.BusinessData;
-import unibo.citysimulation.model.business.impl.Employee;
+import unibo.citysimulation.model.business.utilities.BusinessConfig;
+import unibo.citysimulation.model.business.utilities.BusinessData;
+import unibo.citysimulation.model.business.utilities.BusinessType;
+import unibo.citysimulation.model.zone.Zone;
 
 /**
- * Represents a big business in the city simulation.
- * Extends the Business class.
+ * Represents a small business in the city simulation.
+ * Inherits from the Business class.
  */
-public class BigBusiness implements Business {
+public class SmallBusiness implements Business {
     private final BusinessData businessData;
 
     /**
-     * Creates a big business in the city simulation.
+     * Creates a small business in the city simulation.
      * 
-     * @param id   the id of the big business
-     * @param zone the zone where the big business is located
+     * @param id   the id of the small business
+     * @param zone the zone where the small business is located
      */
-    public BigBusiness(final int id, final Zone zone) {
+    public SmallBusiness(final int id, final Zone zone) {
         this.businessData = new BusinessData(
                 id,
                 new LinkedList<>(),
-                BusinessConfig.BIG_OPENING_TIME,
-                BusinessConfig.BIG_CLOSING_TIME,
-                BusinessConfig.BIG_REVENUE,
-                BusinessConfig.MAX_EMPLOYEES_BIG_BUSINESS,
+                BusinessConfig.SMALL_OPENING_TIME,
+                BusinessConfig.SMALL_CLOSING_TIME,
+                BusinessConfig.SMALL_REVENUE,
+                BusinessConfig.MAX_EMPLOYEES_SMALL_BUSINESS,
                 zone.getRandomPosition(),
-                BusinessConfig.BIG_MIN_AGE,
-                BusinessConfig.BIG_MAX_AGE,
-                BusinessConfig.BIG_MAX_TARDINESS,
-                zone);
+                BusinessConfig.SMALL_MIN_AGE,
+                BusinessConfig.SMALL_MAX_AGE,
+                BusinessConfig.SMALL_MAX_TARDINESS,
+                zone,
+                BusinessType.SMALL);
     }
 
     @Override
@@ -71,5 +73,10 @@ public class BigBusiness implements Business {
     @Override
     public BusinessData getBusinessData() {
         return businessData;
+    }
+
+    @Override
+    public BusinessType getBusinessType() {
+        return businessData.businessType();
     }
 }

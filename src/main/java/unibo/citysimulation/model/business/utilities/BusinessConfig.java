@@ -73,11 +73,11 @@ public final class BusinessConfig {
     /**
      * The maximum number of employees for big businesses.
      */
-    public static final int MAX_EMPLOYEES_BIG_BUSINESS = 50;
+    public static final int MAX_EMPLOYEES_BIG_BUSINESS = 25;
     /**
      * The maximum number of employees for medium businesses.
      */
-    public static final int MAX_EMPLOYEES_MEDIUM_BUSINESS = 25;
+    public static final int MAX_EMPLOYEES_MEDIUM_BUSINESS = 10;
     /**
      * The maximum number of employees for small businesses.
      */
@@ -85,15 +85,15 @@ public final class BusinessConfig {
     /**
      * The maximum tardiness for big businesses.
      */
-    public static final int BIG_MAX_TARDINESS = 1;
+    public static final int BIG_MAX_TARDINESS = 2;
     /**
      * The maximum tardiness for medium businesses.
      */
-    public static final int MEDIUM_MAX_TARDINESS = 8;
+    public static final int MEDIUM_MAX_TARDINESS = 5;
     /**
      * The maximum tardiness for small businesses.
      */
-    public static final int SMALL_MAX_TARDINESS = 12;
+    public static final int SMALL_MAX_TARDINESS = 9;
     /**
      * The minimum age for employees in big businesses.
      */

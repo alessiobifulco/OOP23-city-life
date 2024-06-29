@@ -7,11 +7,8 @@ import java.util.Optional;
 import java.util.Random;
 
 import unibo.citysimulation.model.business.api.Business;
-import unibo.citysimulation.model.business.utilities.BigBusiness;
 import unibo.citysimulation.model.business.utilities.BusinessConfig;
 import unibo.citysimulation.model.business.utilities.BusinessType;
-import unibo.citysimulation.model.business.utilities.MediumBusiness;
-import unibo.citysimulation.model.business.utilities.SmallBusiness;
 import unibo.citysimulation.model.zone.Zone;
 
 /**

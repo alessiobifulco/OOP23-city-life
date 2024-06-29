@@ -1,8 +1,9 @@
-package unibo.citysimulation.model.business.impl;
+package unibo.citysimulation.model.business.utilities;
 
 import java.time.LocalTime;
 import java.util.List;
 
+import unibo.citysimulation.model.business.impl.Employee;
 import unibo.citysimulation.model.zone.Zone;
 import unibo.citysimulation.utilities.Pair;
 
@@ -17,5 +18,6 @@ public record BusinessData(
         int minAge,
         int maxAge,
         int maxTardiness,
-        Zone zone) {
+        Zone zone,
+        BusinessType businessType) {
 }

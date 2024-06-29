@@ -2,15 +2,14 @@ package unibo.citysimulation.model.business.api;
 
 import java.time.LocalTime;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import unibo.citysimulation.model.business.impl.BusinessData;
 import unibo.citysimulation.model.business.impl.Employee;
+import unibo.citysimulation.model.business.utilities.BusinessData;
+import unibo.citysimulation.model.business.utilities.BusinessType;
 
 /**
  * The abstract class representing a business in the city simulation.
  */
-@SuppressFBWarnings(value = "EI", justification = """
-    """)
+
 public interface Business  {
     void hire(Employee employee);
     /**
@@ -35,6 +34,8 @@ public interface Business  {
     double calculatePay();
 
     BusinessData getBusinessData();
+
+    BusinessType getBusinessType();
 
 }
     

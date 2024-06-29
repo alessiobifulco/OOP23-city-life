@@ -1,4 +1,4 @@
-package unibo.citysimulation.model.business.utilities;
+package unibo.citysimulation.model.business.impl;
 
 import java.time.LocalTime;
 import java.util.LinkedList;
@@ -6,8 +6,9 @@ import java.util.Optional;
 
 import unibo.citysimulation.model.zone.Zone;
 import unibo.citysimulation.model.business.api.Business;
-import unibo.citysimulation.model.business.impl.BusinessData;
-import unibo.citysimulation.model.business.impl.Employee;
+import unibo.citysimulation.model.business.utilities.BusinessConfig;
+import unibo.citysimulation.model.business.utilities.BusinessData;
+import unibo.citysimulation.model.business.utilities.BusinessType;
 
 /**
  * Represents a medium-sized business in the city simulation.
@@ -34,7 +35,8 @@ public class MediumBusiness implements Business {
                 BusinessConfig.MEDIUM_MIN_AGE,
                 BusinessConfig.MEDIUM_MAX_AGE,
                 BusinessConfig.MEDIUM_MAX_TARDINESS,
-                zone);
+                zone,
+                BusinessType.MEDIUM);
     }
 
     @Override
@@ -71,5 +73,10 @@ public class MediumBusiness implements Business {
     @Override
     public BusinessData getBusinessData() {
         return businessData;
+    }
+
+    @Override
+    public BusinessType getBusinessType() {
+        return businessData.businessType();
     }
 }
