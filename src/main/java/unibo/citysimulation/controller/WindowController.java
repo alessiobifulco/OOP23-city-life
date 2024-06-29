@@ -27,6 +27,9 @@ public class WindowController {
         windowView.addResizeListener(new ResizeListener());
         initializeControllers();
         windowView.updateFrame(cityModel.getFrameWidth(), cityModel.getFrameHeight());
+        
+        ButtonController buttonController = new ButtonController(cityModel, windowView);
+        windowView.getInputPanel().addShowPersonButtonListener(buttonController);  // Aggiungi il listener
     }
 
     private void initializeControllers() {
