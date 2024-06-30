@@ -18,7 +18,7 @@ public interface CityModel {
     /**
      * Create the entities of the city.
      */
-    void createEntities();
+    void createEntities(int extraBusinesses);
 
     /**
      * Get the zone in which the position is located.
@@ -146,7 +146,7 @@ public interface CityModel {
      *
      * @param numberOfBusinesses The number of businesses to remove.
      */
-    void removeBusinesses(int numberOfBusinesses);
+    void removeBusinesses();
 
     /**
      * Returns a random person from the city.

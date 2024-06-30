@@ -32,6 +32,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Collections;
+import java.util.Iterator;
 
 @SuppressFBWarnings(value = "EI", justification = """
         Considering the basic structure of the application, we choose to
@@ -49,6 +50,7 @@ public final class CityModelImpl implements CityModel {
     private final EmploymentOfficeData employmentOfficeData;
     private int frameWidth;
     private int frameHeight;
+    private int numberOfBusinesses;
 
     public CityModelImpl() {
         takeFrameSize();
@@ -64,15 +66,22 @@ public final class CityModelImpl implements CityModel {
     }
 
     @Override
-    public void createEntities() {
+    public void createEntities(int extraBusinesses) {
         graphicsModel.clearDatasets();
 
         transports = new TransportFactoryImpl().createTransportsFromFile(zones);
         transports.forEach(t -> t.setCapacity(t.getCapacity() * inputModel.getCapacity() / 100));
 
         ZoneTableCreation.createAndAddPairs(zones, transports);
-
-        businesses = BusinessFactoryImpl.createMultipleBusiness(zones, inputModel.getNumberOfPeople());
+ 
+        numberOfBusinesses = inputModel.getNumberOfPeople() / ConstantAndResourceLoader.PERC_BUSINESS;
+        
+        if(extraBusinesses > 0) {
+            numberOfBusinesses += extraBusinesses;
+            businesses = BusinessFactoryImpl.createMultipleBusiness(zones, numberOfBusinesses);
+        } else {
+            businesses = BusinessFactoryImpl.createMultipleBusiness(zones, numberOfBusinesses);
+        }
 
         this.people = new ArrayList<>();
         people = new PersonFactoryImpl().createAllPeople(getInputModel().getNumberOfPeople(), zones, businesses);
@@ -252,9 +261,13 @@ public final class CityModelImpl implements CityModel {
     }
 
     @Override
-    public void removeBusinesses(final int numberOfBusinesses) {
-        for (int i = 0; i < numberOfBusinesses; i++) {
-            businesses.remove(businesses.size());
+    public void removeBusinesses() {
+        Iterator<Business> iterator = businesses.iterator();
+        while (iterator.hasNext()) {
+            Business business = iterator.next();
+            if (business != null) {
+                iterator.remove();
+            }
         }
     }
 
