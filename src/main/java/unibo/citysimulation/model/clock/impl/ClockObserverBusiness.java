@@ -7,8 +7,6 @@ import unibo.citysimulation.model.clock.api.ClockObserver;
 
 import java.util.List;
 import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A ClockObserver implementation that handles business-related operations based on time updates.
@@ -16,9 +14,10 @@ import java.util.Map;
 public class ClockObserverBusiness implements ClockObserver {
     private final List<Business> businesses;
     private final EmploymentOfficeManager employmentManager;
-    private final Map<Business, Integer> businessHiredCountMap;
     private static final LocalTime HR_TIME = LocalTime.of(0, 0);
     private static final LocalTime FR_TIME = LocalTime.of(23, 0);
+    
+
 
     /**
      * Constructs a ClockObserverBusiness object with the given list of businesses and employment office.
@@ -29,7 +28,8 @@ public class ClockObserverBusiness implements ClockObserver {
     public ClockObserverBusiness(final List<Business> businesses, final EmploymentOfficeData employmentOffice) {
         this.businesses = businesses;
         this.employmentManager = new EmploymentOfficeManager(employmentOffice);
-        this.businessHiredCountMap = new HashMap<>();
+
+        
     }
 
     /**
@@ -44,17 +44,14 @@ public class ClockObserverBusiness implements ClockObserver {
             business.checkEmployeeDelays(currentTime);
             if (currentTime.equals(FR_TIME)) {
                 employmentManager.handleEmployeeHiring(business);
-                businessHiredCountMap.put(business, business.getBusinessData().employees().size());
                 employmentManager.handleEmployeePay(business);
             }
             if (currentTime.equals(HR_TIME)) {
                 employmentManager.handleEmployeeFiring(business);
-                businessHiredCountMap.put(business, business.getBusinessData().employees().size());
             }
         }
+        
     }
 
-    protected Map<Business, Integer> getBusinessHiredCountMap() {
-        return this.businessHiredCountMap;
-    }
+    
 }
