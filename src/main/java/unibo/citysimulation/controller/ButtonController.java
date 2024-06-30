@@ -18,14 +18,23 @@ public class ButtonController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         cityModel.getRandomPerson().ifPresent(person -> {
-            String info = "Name: " + person.getPersonData().name() +
-                          "\nAge: " + person.getPersonData().age() +
-                          "\nResidence: " + person.getPersonData().residenceZone().name() +
-                          "\nWork at: " + person.getBusiness().get().getBusinessData().id() +
-                          "\nState: " + person.getState()+
-                          "\nBalance " + person.getMoney()
-                          ;
-            windowView.showPersonInfo(info);
+            if (person.getBusiness().isPresent() && person.getPersonData().residenceZone().name() != null) {
+                String info = "Name: " + person.getPersonData().name() +
+                        "\nAge: " + person.getPersonData().age() +
+                        "\nResidence: " + person.getPersonData().residenceZone().name() +
+                        "\nWork at: " + person.getBusiness().get().getBusinessData().id() +
+                        "\nState: " + person.getState() +
+                        "\nBalance " + person.getMoney();
+                windowView.showPersonInfo(info);
+            } else if (person.getPersonData().residenceZone().name() != null) {
+                String info = "Name: " + person.getPersonData().name() +
+                        "\nAge: " + person.getPersonData().age() +
+                        "\nResidence: " + person.getPersonData().residenceZone().name() +
+                        "\nWork at: No Work" +
+                        "\nState: " + person.getState() +
+                        "\nBalance " + person.getMoney();
+                windowView.showPersonInfo(info);
+            }
         });
     }
 }

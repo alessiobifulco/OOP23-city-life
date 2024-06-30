@@ -7,19 +7,10 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.Objects;
 
-/**
- * Controller class responsible for managing the main window.
- */
 public class WindowController {
     private final WindowView windowView;
     private final CityModel cityModel;
 
-    /**
-     * Constructor for initial window and initialize all the feature in the window.
-     * 
-     * @param windowView
-     * @param cityModel
-     */
     public WindowController(final WindowView windowView, final CityModel cityModel) {
         this.windowView = Objects.requireNonNull(windowView, "windowView must not be null");
         this.cityModel = Objects.requireNonNull(cityModel, "cityModel must not be null");
@@ -27,9 +18,10 @@ public class WindowController {
         windowView.addResizeListener(new ResizeListener());
         initializeControllers();
         windowView.updateFrame(cityModel.getFrameWidth(), cityModel.getFrameHeight());
-        
+
         ButtonController buttonController = new ButtonController(cityModel, windowView);
-        windowView.getInputPanel().addShowPersonButtonListener(buttonController);  // Aggiungi il listener
+        windowView.getInputPanel().addShowPersonButtonListener(buttonController);
+
     }
 
     private void initializeControllers() {
@@ -39,9 +31,6 @@ public class WindowController {
         new GraphicsController(cityModel, windowView.getGraphicsPanel());
     }
 
-    /**
-     * Inner class responsible for handling component resize events.
-     */
     private final class ResizeListener extends ComponentAdapter {
         @Override
         public void componentResized(final ComponentEvent e) {
