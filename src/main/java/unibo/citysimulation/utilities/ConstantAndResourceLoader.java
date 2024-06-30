@@ -152,6 +152,9 @@ public final class ConstantAndResourceLoader extends ClassLoader {
     /**
      * @return Returns a copy of the SPEEDS array.
      */
+
+    public static final int PERC_BUSINESS = 10;
+
     public static List<Integer> getSpeeds() {
         return SPEEDS;
     }
