@@ -102,14 +102,15 @@ public final class CityModelImpl implements CityModel {
     public double avaragePayZone(final Zone zone) {
         double avarage = 0;
         int businessCount = 0;
+        double sum = 0;
         for (final Business business : businesses) {
             if (business.getBusinessData().zone().equals(zone)) {
                 businessCount++;
-                double sum = 0;
                 sum += business.getBusinessData().employees().size() * business.calculatePay();
                 avarage = sum / businessCount;
             }
         }
+        sum = 0;
         return avarage;
     }
 
