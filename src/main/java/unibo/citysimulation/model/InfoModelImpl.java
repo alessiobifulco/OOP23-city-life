@@ -1,11 +1,9 @@
 package unibo.citysimulation.model;
 
-
 import unibo.citysimulation.model.zone.Zone;
 import unibo.citysimulation.utilities.Pair;
 import unibo.citysimulation.view.sidepanels.InfoPanel;
 import java.util.Objects;
-
 import java.util.Optional;
 
 /**
@@ -45,7 +43,7 @@ public class InfoModelImpl implements InfoModel {
                 infoPanel::updateNumberOfPeople,
                 () -> infoPanel.updateNumberOfPeople(0));
         infoPanel.updateNumberOfBusiness(cityModel.getBusinessesInZone(zone.name()));
-        infoPanel.updateAvaragePay(cityModel.avaragePayZone(zone));
+        infoPanel.updateAveragePay(cityModel.avaragePayZone(zone));
         infoPanel.updateNumberOfDirectLines(cityModel.getNumberOfDirectLinesFromZone(zone));
     }
 
@@ -54,8 +52,7 @@ public class InfoModelImpl implements InfoModel {
         infoPanel.updateZoneName("");
         infoPanel.updateNumberOfPeople(0);
         infoPanel.updateNumberOfBusiness(0);
-        infoPanel.updateAvaragePay(0);
+        infoPanel.updateAveragePay(0);
         infoPanel.updateNumberOfDirectLines(0);
     }
 }
-

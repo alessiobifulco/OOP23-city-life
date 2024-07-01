@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
@@ -50,6 +51,9 @@ public final class GraphicsPanelImpl extends StyledPanel implements GraphicsPane
     private JButton createLegendButton() {
         final JButton button = new JButton("?");
         button.setPreferredSize(BUTTON_DIMENSIONS);
+        button.setFont(new Font("Roboto", Font.PLAIN, 14));
+        button.setBackground(new Color(0xA7C4D4));
+        button.setForeground(Color.BLACK);
         return button;
     }
 
@@ -80,7 +84,7 @@ public final class GraphicsPanelImpl extends StyledPanel implements GraphicsPane
 
     private JPanel createChartsPanel(final List<XYPlot> plots) {
         final JPanel chartsPanel = new JPanel();
-        chartsPanel.setBackground(super.getBgColor());
+        chartsPanel.setBackground(Color.WHITE);
         chartsPanel.setLayout(new GridLayout(plots.size(), 1));
         plots.forEach(plot -> chartsPanel.add(new ChartPanel(plot.getChart())));
         return chartsPanel;

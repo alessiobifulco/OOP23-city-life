@@ -19,13 +19,14 @@ public final class InfoPanel extends StyledPanel {
     private final JLabel numberOfPeople;
     private final JLabel zoneNJLabel;
     private final JLabel numberOfBusiness;
-    private final JLabel numberOfAvaregePay;
+    private final JLabel numberOfAveragePay;
     private final JLabel numberDirectLines;
     private static final int COORDINATES_LABEL_GRID_Y = 1;
     private static final int NUMBER_OF_PEOPLE_LABEL_GRID_Y = 2;
     private static final int NUMBER_OF_BUSINESS_LABEL_GRID_Y = 3;
-    private static final int NUMBER_OF_AVAREGE_PAY_LABEL_GRID_Y = 4;
+    private static final int NUMBER_OF_AVERAGE_PAY_LABEL_GRID_Y = 4;
     private static final int NUMBER_OF_DIRECT_LINES_LABEL_GRID_Y = 5;
+
     /**
      * Constructs an InfoPanel with the specified background color.
      *
@@ -38,9 +39,9 @@ public final class InfoPanel extends StyledPanel {
         final GridBagConstraints gbc = new GridBagConstraints();
         // Create a JLabel with the desired text
         zoneNJLabel = new JLabel("Zone:", SwingConstants.CENTER); // Align the text to the center
-        zoneNJLabel.setFont(new Font("Arial", Font.BOLD, ConstantAndResourceLoader.INFO_PANEL_FONT_SIZE));
-        //set color of the text
-        zoneNJLabel.setForeground(Color.RED);
+        zoneNJLabel.setFont(new Font("Roboto", Font.BOLD, ConstantAndResourceLoader.INFO_PANEL_FONT_SIZE));
+        // Set color of the text
+        zoneNJLabel.setForeground(Color.BLACK);
         // Add the JLabel to the panel
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -49,21 +50,32 @@ public final class InfoPanel extends StyledPanel {
         gbc.fill = GridBagConstraints.BOTH;
         add(zoneNJLabel, gbc);
         coordinates = new JLabel("Coordinates: ");
+        coordinates.setFont(new Font("Roboto", Font.PLAIN, ConstantAndResourceLoader.INFO_PANEL_FONT_SIZE));
+        coordinates.setForeground(Color.BLACK);
         gbc.gridy = COORDINATES_LABEL_GRID_Y;
         add(coordinates, gbc);
         numberOfPeople = new JLabel("Number of People: ");
+        numberOfPeople.setFont(new Font("Roboto", Font.PLAIN, ConstantAndResourceLoader.INFO_PANEL_FONT_SIZE));
+        numberOfPeople.setForeground(Color.BLACK);
         gbc.gridy = NUMBER_OF_PEOPLE_LABEL_GRID_Y;
         add(numberOfPeople, gbc);
         numberOfBusiness = new JLabel("Number of Business: ");
+        numberOfBusiness.setFont(new Font("Roboto", Font.PLAIN, ConstantAndResourceLoader.INFO_PANEL_FONT_SIZE));
+        numberOfBusiness.setForeground(Color.BLACK);
         gbc.gridy = NUMBER_OF_BUSINESS_LABEL_GRID_Y;
         add(numberOfBusiness, gbc);
-        numberOfAvaregePay = new JLabel("Avarage Pay: ");
-        gbc.gridy = NUMBER_OF_AVAREGE_PAY_LABEL_GRID_Y;
-        add(numberOfAvaregePay, gbc);
+        numberOfAveragePay = new JLabel("Average Pay: ");
+        numberOfAveragePay.setFont(new Font("Roboto", Font.PLAIN, ConstantAndResourceLoader.INFO_PANEL_FONT_SIZE));
+        numberOfAveragePay.setForeground(Color.BLACK);
+        gbc.gridy = NUMBER_OF_AVERAGE_PAY_LABEL_GRID_Y;
+        add(numberOfAveragePay, gbc);
         numberDirectLines = new JLabel("Number of Direct Lines: ");
+        numberDirectLines.setFont(new Font("Roboto", Font.PLAIN, ConstantAndResourceLoader.INFO_PANEL_FONT_SIZE));
+        numberDirectLines.setForeground(Color.BLACK);
         gbc.gridy = NUMBER_OF_DIRECT_LINES_LABEL_GRID_Y;
         add(numberDirectLines, gbc);
     }
+
     /**
      * Updates the position information displayed on the panel.
      *
@@ -82,6 +94,7 @@ public final class InfoPanel extends StyledPanel {
     public void updateNumberOfPeople(final int peopleNumber) {
         numberOfPeople.setText("Number of People: " + peopleNumber);
     }
+
     /**
      * Updates the zone name displayed on the panel.
      *
@@ -90,6 +103,7 @@ public final class InfoPanel extends StyledPanel {
     public void updateZoneName(final String zoneName) {
         zoneNJLabel.setText("Zone: " + zoneName);
     }
+
     /**
      * Updates the number of businesses displayed on the panel.
      *
@@ -98,13 +112,15 @@ public final class InfoPanel extends StyledPanel {
     public void updateNumberOfBusiness(final int businessNumber) {
         numberOfBusiness.setText("Number of Business: " + businessNumber);
     }
+
     /**
-     * Updates the avarage pay displayed on the panel.
-     * @param avaragePay The avarage pay.
+     * Updates the average pay displayed on the panel.
+     * @param averagePay The average pay.
      */
-    public void updateAvaragePay(final double avaragePay) {
-        numberOfAvaregePay.setText(String.format("Average Pay: %.2f", avaragePay));
+    public void updateAveragePay(final double averagePay) {
+        numberOfAveragePay.setText(String.format("Average Pay: %.2f", averagePay));
     }
+
     /**
      * Updates the number of direct lines displayed on the panel.
      *
@@ -114,4 +130,3 @@ public final class InfoPanel extends StyledPanel {
         numberDirectLines.setText("Number of Direct Lines: " + directLines);
     }
 }
-

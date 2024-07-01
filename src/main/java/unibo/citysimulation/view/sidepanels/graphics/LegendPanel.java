@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
 /**
  * This class represents a legend panel for the city simulation.
  * It extends JFrame to create a separate window for the legend.
@@ -20,10 +21,11 @@ public class LegendPanel extends JFrame {
     private static final int WINDOW_SIZE = 300;
     private static final int FONT_SIZE = 18;
 
-     /**
+    /**
      * Constructor for the LegendPanel class.
-     * @param colors The list of colors to be used in the legend.
-     * @param linesName The list of names for each line in the legend.
+     * 
+     * @param colors     The list of colors to be used in the legend.
+     * @param linesName  The list of names for each line in the legend.
      */
     public LegendPanel(final List<Color> colors, final List<String> linesName) {
         this.setTitle("Legend");
@@ -32,13 +34,16 @@ public class LegendPanel extends JFrame {
 
         final JPanel legendPanel = new JPanel();
         legendPanel.setLayout(new BoxLayout(legendPanel, BoxLayout.Y_AXIS));
+        legendPanel.setBackground(Color.WHITE);
 
         final JLabel title = new JLabel("Graph Legend");
-        title.setFont(new Font("Serif", Font.BOLD, FONT_SIZE));
+        title.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE));
+        title.setForeground(Color.BLACK);
         legendPanel.add(title);
         legendPanel.add(Box.createVerticalStrut(10)); // Spacing
         final JLabel divisionTitle = new JLabel("People State:");
-        divisionTitle.setFont(new Font("Serif", Font.BOLD, FONT_SIZE));
+        divisionTitle.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE));
+        divisionTitle.setForeground(Color.BLACK);
         legendPanel.add(divisionTitle);
 
         legendPanel.add(createLegendItem("WORKING", Color.RED));
@@ -47,7 +52,8 @@ public class LegendPanel extends JFrame {
 
         legendPanel.add(Box.createVerticalStrut(10)); // Spacing
         final JLabel transportTitle = new JLabel("Transport Congestion:");
-        transportTitle.setFont(new Font("Serif", Font.BOLD, FONT_SIZE));
+        transportTitle.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE));
+        transportTitle.setForeground(Color.BLACK);
         legendPanel.add(transportTitle);
 
         for (int i = 0; i < linesName.size(); i++) {
@@ -58,7 +64,8 @@ public class LegendPanel extends JFrame {
 
         legendPanel.add(Box.createVerticalStrut(10)); // Spacing
         final JLabel businessOccupationTitle = new JLabel("Business Occupation:");
-        businessOccupationTitle.setFont(new Font("Serif", Font.BOLD, FONT_SIZE));
+        businessOccupationTitle.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE));
+        businessOccupationTitle.setForeground(Color.BLACK);
         legendPanel.add(businessOccupationTitle);
         legendPanel.add(createLegendItem("Business Occupation", Color.BLUE));
 
@@ -66,22 +73,27 @@ public class LegendPanel extends JFrame {
         add(scrollPane);
         setVisible(true);
     }
-     /**
+
+    /**
      * Creates a JPanel representing a single item in the legend.
-     * @param text The text for the legend item.
+     * 
+     * @param text  The text for the legend item.
      * @param color The color for the legend item.
      * @return A JPanel representing the legend item.
      */
     private JPanel createLegendItem(final String text, final Color color) {
         final JPanel itemPanel = new JPanel();
         itemPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        itemPanel.setBackground(Color.WHITE);
         final JLabel colorLabel = new JLabel();
         colorLabel.setOpaque(true);
         colorLabel.setBackground(color);
         colorLabel.setPreferredSize(new Dimension(10, 10));
         itemPanel.add(colorLabel);
-        itemPanel.add(new JLabel(text));
+        final JLabel textLabel = new JLabel(text);
+        textLabel.setForeground(Color.BLACK);
+        textLabel.setFont(new Font("Roboto", Font.PLAIN, 14));
+        itemPanel.add(textLabel);
         return itemPanel;
     }
 }
-

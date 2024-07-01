@@ -3,18 +3,20 @@ package unibo.citysimulation.view.sidepanels.clock;
 import unibo.citysimulation.utilities.ConstantAndResourceLoader;
 import unibo.citysimulation.view.StyledPanel;
 
+import java.util.List;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.util.List;
 import java.awt.event.ActionListener;
+
+import unibo.citysimulation.view.rounded.RoundedButton;
 
 /**
  * Panel for displaying the clock and controlling simulation speed.
@@ -23,8 +25,8 @@ public class ClockPanelImpl extends StyledPanel implements ClockPanel {
     private static final long serialVersionUID = 1L;
     private final JLabel timeDay = new JLabel("Day: 1", SwingConstants.CENTER);
     private final JLabel timeHour = new JLabel("Hour: 00:00", SwingConstants.CENTER);
-    private final JButton speedButton;
-    private final JButton pauseButton;
+    private final RoundedButton speedButton;
+    private final RoundedButton pauseButton;
     private final List<Integer> speeds = ConstantAndResourceLoader.SPEEDS;
     private int currentSpeedIndex;
 
@@ -35,20 +37,15 @@ public class ClockPanelImpl extends StyledPanel implements ClockPanel {
      */
     public ClockPanelImpl(final Color bgColor) {
         super(bgColor);
-        speedButton = new JButton("1x");
-        speedButton.setForeground(Color.black);
-        speedButton.setPreferredSize(new Dimension(ConstantAndResourceLoader.CLOCK_PANEL_PANEL_WIDTH,
-                ConstantAndResourceLoader.CLOCK_PANEL_PANEL_HEIGHT)); // Set the preferred size
-
-        pauseButton = new JButton("Pause");
-        pauseButton.setForeground(Color.black);
-        pauseButton.setPreferredSize(new Dimension(ConstantAndResourceLoader.CLOCK_PANEL_PANEL_WIDTH,
-                ConstantAndResourceLoader.CLOCK_PANEL_PANEL_HEIGHT)); // Set the preferred size
+        speedButton = createButton("1x");
+        pauseButton = createButton("Pause");
 
         final JPanel timePanel = new JPanel(new GridLayout(2, 1));
         timePanel.setBackground(bgColor);
-        timeDay.setFont(new Font("Arial", Font.BOLD, ConstantAndResourceLoader.CLOCK_PANEL_FONT_SIZE));
-        timeHour.setFont(new Font("Arial", Font.BOLD, ConstantAndResourceLoader.CLOCK_PANEL_FONT_SIZE));
+        timeDay.setFont(new Font("Roboto", Font.BOLD, ConstantAndResourceLoader.CLOCK_PANEL_FONT_SIZE));
+        timeHour.setFont(new Font("Roboto", Font.BOLD, ConstantAndResourceLoader.CLOCK_PANEL_FONT_SIZE));
+        timeDay.setForeground(Color.BLACK);
+        timeHour.setForeground(Color.BLACK);
         timePanel.add(timeDay);
         timePanel.add(timeHour);
 
@@ -56,6 +53,26 @@ public class ClockPanelImpl extends StyledPanel implements ClockPanel {
         add(speedButton, BorderLayout.WEST);
         add(timePanel, BorderLayout.CENTER);
         add(pauseButton, BorderLayout.EAST);
+    }
+
+    private RoundedButton createButton(String text) {
+        final RoundedButton button = new RoundedButton(text);
+        button.setForeground(Color.BLACK);
+        button.setBackground(new Color(0xA7C4D4));
+        button.setFont(new Font("Roboto", Font.PLAIN, 14));
+        button.setPreferredSize(new Dimension(80, 35));
+        button.setFocusPainted(false);
+
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(new Color(0x87B2C8));
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(new Color(0xA7C4D4));
+            }
+        });
+        return button;
     }
 
     /**

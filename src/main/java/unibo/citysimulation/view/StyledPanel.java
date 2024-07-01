@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 
 /**
  * Represents a styled panel with a background color.
@@ -21,11 +22,12 @@ public class StyledPanel extends JPanel {
     public StyledPanel(final Color bgColor) {
         this.bgColor = bgColor;
         setLayout(new BorderLayout());
-        final Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
+        final Border lineBorder = BorderFactory.createLineBorder(new Color(183, 193, 195), 2);
         final Border emptyBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
         final Border compoundBorder = BorderFactory.createCompoundBorder(lineBorder, emptyBorder);
         setBorder(compoundBorder);
         setBackground(bgColor);
+        setFont(new Font("Roboto", Font.PLAIN, 14));
     }
 
     /**

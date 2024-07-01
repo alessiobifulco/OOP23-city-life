@@ -14,6 +14,8 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.plaf.ColorUIResource;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -25,7 +27,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ComponentAdapter;
 
 /**
- * Class that implments the Windowview interface.
+ * Class that implements the WindowView interface.
  * This manages all the Panels displayed in this frame and their sizes.
  */
 @SuppressFBWarnings(value = "EI", justification = """
@@ -35,10 +37,9 @@ import java.awt.event.ComponentAdapter;
 public final class WindowViewImpl extends JFrame implements WindowView {
     private static final long serialVersionUID = 1L;
     private static final List<Color> COLOR_LIST = List.of(
-        new Color(50, 50, 50),
-        new Color(159, 226, 191),
-        new Color(128, 0, 32),
-        new Color(0, 123, 167)
+        Color.WHITE,                // Background
+        Color.BLACK,                // Foreground (text)
+        new Color(0xA7C4D4)         // Secondary color
     );
     private static final int PANEL_DIVISOR = 4;
     private static final double WEIGHT_INPUT_PANEL = 0.525;
@@ -60,6 +61,13 @@ public final class WindowViewImpl extends JFrame implements WindowView {
      */
 
     public WindowViewImpl(final int width, final int height) {
+        // Set global UI defaults
+        UIManager.put("Panel.background", new ColorUIResource(COLOR_LIST.get(0)));
+        UIManager.put("OptionPane.background", new ColorUIResource(COLOR_LIST.get(0)));
+        UIManager.put("OptionPane.messageForeground", new ColorUIResource(COLOR_LIST.get(1)));
+        UIManager.put("Button.background", new ColorUIResource(COLOR_LIST.get(2)));
+        UIManager.put("Button.foreground", new ColorUIResource(COLOR_LIST.get(1)));
+
         setMinimumSize(new Dimension(ConstantAndResourceLoader.SCREEN_MINIMUM_WIDTH_PIXEL,
                 ConstantAndResourceLoader.SCREEN_MINIMUM_HEIGHT_PIXEL));
 
@@ -70,17 +78,16 @@ public final class WindowViewImpl extends JFrame implements WindowView {
 
         setLayout(new BorderLayout());
 
-        mapPanel = new MapPanelImpl(Color.WHITE);
+        mapPanel = new MapPanelImpl(COLOR_LIST.get(0));
         inputPanel = new InputPanel(COLOR_LIST.get(0));
-        infoPanel = new InfoPanel(COLOR_LIST.get(1));
-        clockPanel = new ClockPanelImpl(COLOR_LIST.get(2));
-        graphicsPanel = new GraphicsPanelImpl(COLOR_LIST.get(3));
+        infoPanel = new InfoPanel(COLOR_LIST.get(0));
+        clockPanel = new ClockPanelImpl(COLOR_LIST.get(0));
+        graphicsPanel = new GraphicsPanelImpl(COLOR_LIST.get(0));
 
         createComponents(width, height);
 
         setVisible(true);
     }
-
 
     @Override
     public void addResizeListener(final ComponentAdapter adapter) {
@@ -89,9 +96,7 @@ public final class WindowViewImpl extends JFrame implements WindowView {
 
     @Override
     public void updateFrame(final int width, final int height) {
-
         setSize(new Dimension(width, height));
-
         inputPanel.setPreferredSize(new Dimension(width / 4, height));
         infoPanel.setPreferredSize(new Dimension(width / 4, height));
         clockPanel.setPreferredSize(width / 4, height);
@@ -102,7 +107,6 @@ public final class WindowViewImpl extends JFrame implements WindowView {
 
     private void createComponents(final int width, final int height) {
         add((JPanel) mapPanel, BorderLayout.CENTER);
-
         createSidePanels(width, height);
     }
 
@@ -111,7 +115,9 @@ public final class WindowViewImpl extends JFrame implements WindowView {
         final int sidePanelsHeight = height;
 
         final JPanel leftPanel = new JPanel(new GridBagLayout());
+        leftPanel.setBackground(COLOR_LIST.get(0));
         final JPanel rightPanel = new JPanel(new GridBagLayout());
+        rightPanel.setBackground(COLOR_LIST.get(0));
 
         final GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
@@ -134,7 +140,7 @@ public final class WindowViewImpl extends JFrame implements WindowView {
 
         constraints.gridy = 1;
         constraints.weighty = WEIGHT_GRAPHICS_PANEL;
-        graphicsPanel.setPreferredSize(sidePanelWidth, (int) (sidePanelsHeight * WEIGHT_GRAPHICS_PANEL)); 
+        graphicsPanel.setPreferredSize(sidePanelWidth, (int) (sidePanelsHeight * WEIGHT_GRAPHICS_PANEL));
         rightPanel.add((JPanel) graphicsPanel, constraints);
 
         add(leftPanel, BorderLayout.WEST);
@@ -168,6 +174,6 @@ public final class WindowViewImpl extends JFrame implements WindowView {
 
     @Override
     public void showPersonInfo(String info) {
-        JOptionPane.showMessageDialog(null, info, "Person Info", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, info, "Person Info", JOptionPane.INFORMATION_MESSAGE);
     }
 }

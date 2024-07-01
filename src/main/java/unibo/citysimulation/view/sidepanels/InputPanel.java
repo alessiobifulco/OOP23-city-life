@@ -3,8 +3,6 @@ package unibo.citysimulation.view.sidepanels;
 import unibo.citysimulation.view.StyledPanel;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JSlider;
 import javax.swing.JPanel;
 
 import javax.swing.border.EmptyBorder;
@@ -19,26 +17,29 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 
+import unibo.citysimulation.view.rounded.RoundedButton;
+import unibo.citysimulation.view.rounded.RoundedSlider;
+
 /**
  * This class represents the input panel.
  */
 public class InputPanel extends StyledPanel {
     private static final long serialVersionUID = 1L;
 
-    private final JButton startButton;
-    private final JButton stopButton;
-    private final JButton showPersonButton;
-    private final JSlider peopleSlider;
-    private final JSlider capacitySlider;
-    private final JSlider businessSlider;
+    private final RoundedButton startButton;
+    private final RoundedButton stopButton;
+    private final RoundedButton showPersonButton;
+    private final RoundedSlider peopleSlider;
+    private final RoundedSlider capacitySlider;
+    private final RoundedSlider businessSlider;
     private static final int BUTTON_PANEL_GRID_Y = 5;
     private static final int FONT_SIZE = 14;
     private static final int MAJOR_TICK_SPACING = 20;
     private static final int MINOR_TICK_SPACING = 5;
-    private static final int BACKGROUND_COLOR_VALUE = 50;
     private static final int BUTTON_WIDTH = 100;
     private static final int BUTTON_HEIGHT = 50;
     private static final int BUTTON_FONT_SIZE = 14;
+    private static final Color SLIDER_BG_COLOR = new Color(0xE6E6E6); // Light gray background for sliders (JFreeChart-like)
 
     /**
      * Constructs an InputPanel with the specified background color.
@@ -72,16 +73,12 @@ public class InputPanel extends StyledPanel {
         capacitySlider = createSlider("Transports' Capacity", 0, 100);
         gbc.gridy = 3;
         add(capacitySlider, gbc);
-        // Create and add slider for the general wealth of people
-        //richnessSlider = createSlider("People's Richness", 0, 100);
-        gbc.gridy = 4;
-        //add(richnessSlider, gbc);
         final JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.setOpaque(false);
         buttonPanel.setBorder(new EmptyBorder(10, 0, 10, 0)); // Padding
-        startButton = createButton("Start", Color.GREEN);
+        startButton = createButton("Start", new Color(0xA7C4D4));
         buttonPanel.add(startButton);
-        stopButton = createButton("Stop", Color.RED);
+        stopButton = createButton("Stop", new Color(0xA7C4D4));
         stopButton.setEnabled(false);
         buttonPanel.add(stopButton);
         gbc.gridy = BUTTON_PANEL_GRID_Y;
@@ -89,7 +86,7 @@ public class InputPanel extends StyledPanel {
         add(buttonPanel, gbc);
         
         // Add the showPersonButton below the start and stop buttons
-        showPersonButton = createButton("Show Random Person", Color.BLUE);
+        showPersonButton = createButton("Show Random Person", new Color(0xA7C4D4));
         gbc.gridy = BUTTON_PANEL_GRID_Y + 1;
         gbc.gridwidth = 2;
         add(showPersonButton, gbc);
@@ -175,33 +172,38 @@ public class InputPanel extends StyledPanel {
         businessSlider.setEnabled(enabled);
     }
 
-    private JSlider createSlider(final String title, final int min, final int max) {
-        final JSlider slider = new JSlider(min, max);
+    private RoundedSlider createSlider(final String title, final int min, final int max) {
+        final RoundedSlider slider = new RoundedSlider(min, max);
         final TitledBorder border = BorderFactory.createTitledBorder(title);
-        border.setTitleColor(Color.WHITE);
-        border.setTitleFont(new Font("SansSerif", Font.BOLD, FONT_SIZE));
+        border.setTitleColor(Color.BLACK);
+        border.setTitleFont(new Font("Roboto", Font.PLAIN, FONT_SIZE));
         slider.setBorder(border);
         slider.setMajorTickSpacing(MAJOR_TICK_SPACING);
         slider.setMinorTickSpacing(MINOR_TICK_SPACING);
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
-        slider.setForeground(Color.WHITE);
-        slider.setBackground(new Color(
-            BACKGROUND_COLOR_VALUE, 
-            BACKGROUND_COLOR_VALUE, 
-            BACKGROUND_COLOR_VALUE
-        ));
+        slider.setForeground(Color.BLACK);
+        slider.setBackground(SLIDER_BG_COLOR);
         return slider;
     }
 
-    private JButton createButton(final String text, final Color color) {
-        final JButton button = new JButton(text);
+    private RoundedButton createButton(final String text, final Color color) {
+        final RoundedButton button = new RoundedButton(text);
         button.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
         button.setBackground(color);
-        button.setForeground(Color.WHITE);
-        button.setFont(new Font("SansSerif", Font.BOLD, BUTTON_FONT_SIZE));
+        button.setForeground(Color.BLACK);
+        button.setFont(new Font("Roboto", Font.PLAIN, BUTTON_FONT_SIZE));
         button.setFocusPainted(false);
-        button.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(new Color(0x87B2C8));
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(color);
+            }
+        });
         return button;
     }
 }
