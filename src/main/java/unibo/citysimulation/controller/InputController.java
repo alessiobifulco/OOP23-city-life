@@ -78,5 +78,7 @@ public class InputController {
         // Update the pause button state on the clock panel
         clockPanel.updatePauseButton(cityModel.getClockModel().isPaused());
         clockPanel.setPauseButtonEnabled(false);
+        ReportController reportController = new ReportController(cityModel);
+        reportController.showReport();
     }
 }
