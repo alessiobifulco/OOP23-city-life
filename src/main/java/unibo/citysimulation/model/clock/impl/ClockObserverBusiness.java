@@ -1,6 +1,7 @@
 package unibo.citysimulation.model.clock.impl;
 
 import unibo.citysimulation.model.business.api.Business;
+import unibo.citysimulation.model.business.impl.BusinessExpancionLogic;
 import unibo.citysimulation.model.business.impl.EmploymentOfficeManager;
 import unibo.citysimulation.model.business.utilities.EmploymentOfficeData;
 import unibo.citysimulation.model.clock.api.ClockObserver;
@@ -18,6 +19,7 @@ public class ClockObserverBusiness implements ClockObserver {
     private final EmploymentOfficeManager employmentManager;
     private static final LocalTime HR_TIME = LocalTime.of(0, 0);
     private static final LocalTime FR_TIME = LocalTime.of(23, 0);
+    private static final int END_MONTH = 30;
 
     /**
      * Constructs a ClockObserverBusiness with the specified list of businesses and
@@ -52,6 +54,9 @@ public class ClockObserverBusiness implements ClockObserver {
             if (currentTime.equals(HR_TIME)) {
                 employmentManager.handleEmployeeFiring(business);
             }
+        }
+        if(currentDay == END_MONTH) {
+            BusinessExpancionLogic.evaluateBusinesses(businesses);
         }
     }
 }
