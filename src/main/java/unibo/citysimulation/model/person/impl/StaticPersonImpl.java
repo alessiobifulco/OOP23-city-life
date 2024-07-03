@@ -25,7 +25,7 @@ public class StaticPersonImpl implements StaticPerson {
     private int tripDuration;
     private static final Random RANDOM = new Random();
     private Optional<Business> business;
-    public Boolean travel = false;
+    private Boolean travel = false;
 
     /**
      * Constructs a new static person with the given person data and money.
@@ -183,9 +183,27 @@ public class StaticPersonImpl implements StaticPerson {
      */
     @Override
     public final void setBusiness(final Optional<Business> business) {
-        if(!travel){
+        if (!travel) {
             this.business = business;
             calculateTrip();
         }
+    }
+
+    /**
+     * Returns the travel status of the person.
+     *
+     * @return true if the person is currently traveling, false otherwise.
+     */
+    public Boolean getTravel() {
+        return travel;
+    }
+
+    /**
+     * Sets the travel status of the person.
+     *
+     * @param travel the travel status to set
+     */
+    public void setTravel(final Boolean travel) {
+        this.travel = travel;
     }
 }

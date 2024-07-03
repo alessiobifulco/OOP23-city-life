@@ -89,11 +89,11 @@ public final class BusinessConfig {
     /**
      * The maximum tardiness for medium businesses.
      */
-    public static final int MEDIUM_MAX_TARDINESS = 5;
+    public static final int MEDIUM_MAX_TARDINESS = 3;
     /**
      * The maximum tardiness for small businesses.
      */
-    public static final int SMALL_MAX_TARDINESS = 9;
+    public static final int SMALL_MAX_TARDINESS = 4;
     /**
      * The minimum age for employees in big businesses.
      */

@@ -1,3 +1,6 @@
+/**
+ * This class represents the input panel.
+ */
 package unibo.citysimulation.view.sidepanels;
 
 import unibo.citysimulation.view.StyledPanel;
@@ -39,7 +42,10 @@ public class InputPanel extends StyledPanel {
     private static final int BUTTON_WIDTH = 100;
     private static final int BUTTON_HEIGHT = 50;
     private static final int BUTTON_FONT_SIZE = 14;
-    private static final Color SLIDER_BG_COLOR = new Color(0xE6E6E6); // Light gray background for sliders (JFreeChart-like)
+    private static final Color SLIDER_BG_COLOR = new Color(0xE6E6E6);
+    private static final Color BUTTON_BG_COLOR = new Color(0xA7C4D4);
+    private static final Color BUTTON_HOVER_COLOR = new Color(0x87B2C8);
+    private static final Color BUTTON_FG_COLOR = Color.BLACK;
 
     /**
      * Constructs an InputPanel with the specified background color.
@@ -54,39 +60,33 @@ public class InputPanel extends StyledPanel {
         gbc.gridy = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        gbc.gridwidth = 2; // Occupies two columns
+        gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(10, 10, 10, 10); // Add some padding
-        gbc.gridwidth = 1; // Resets to one column for the subsequent elements
-        // Create and add slider for the number of people
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.gridwidth = 1;
         peopleSlider = createSlider("Number of People %", 0, 100);
         gbc.gridy = 1;
         gbc.weighty = 0.5;
         add(peopleSlider, gbc);
-        // Create and add slider for the number of businesses
-        businessSlider = createSlider("Add Businesses", 0, 100); // Initialize businessSlider here
-        //set zero the value of the slider
+        businessSlider = createSlider("Add Businesses", 0, 100);
         businessSlider.setValue(0);
         gbc.gridy = 2;
         add(businessSlider, gbc);
-        // Create and add slider for the transport line capacities
         capacitySlider = createSlider("Transports' Capacity", 0, 100);
         gbc.gridy = 3;
         add(capacitySlider, gbc);
         final JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.setOpaque(false);
-        buttonPanel.setBorder(new EmptyBorder(10, 0, 10, 0)); // Padding
-        startButton = createButton("Start", new Color(0xA7C4D4));
+        buttonPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
+        startButton = createButton("Start", BUTTON_BG_COLOR);
         buttonPanel.add(startButton);
-        stopButton = createButton("Stop", new Color(0xA7C4D4));
+        stopButton = createButton("Stop", BUTTON_BG_COLOR);
         stopButton.setEnabled(false);
         buttonPanel.add(stopButton);
         gbc.gridy = BUTTON_PANEL_GRID_Y;
-        gbc.gridwidth = 2; // Occupies two columns
+        gbc.gridwidth = 2;
         add(buttonPanel, gbc);
-        
-        // Add the showPersonButton below the start and stop buttons
-        showPersonButton = createButton("Show Random Person", new Color(0xA7C4D4));
+        showPersonButton = createButton("Show Random Person", BUTTON_BG_COLOR);
         gbc.gridy = BUTTON_PANEL_GRID_Y + 1;
         gbc.gridwidth = 2;
         add(showPersonButton, gbc);
@@ -148,6 +148,7 @@ public class InputPanel extends StyledPanel {
 
     /**
      * set the start button enabled or disabled.
+     * 
      * @param enabled
      */
     public void setStartButtonEnabled(final boolean enabled) {
@@ -156,6 +157,7 @@ public class InputPanel extends StyledPanel {
 
     /**
      * set the stop button enabled or disabled.
+     * 
      * @param enabled
      */
     public void setStopButtonEnabled(final boolean enabled) {
@@ -164,6 +166,7 @@ public class InputPanel extends StyledPanel {
 
     /**
      * set the sliders enabled or disabled.
+     * 
      * @param enabled
      */
     public void setSlidersEnabled(final boolean enabled) {
@@ -191,16 +194,18 @@ public class InputPanel extends StyledPanel {
         final RoundedButton button = new RoundedButton(text);
         button.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
         button.setBackground(color);
-        button.setForeground(Color.BLACK);
+        button.setForeground(BUTTON_FG_COLOR);
         button.setFont(new Font("Roboto", Font.PLAIN, BUTTON_FONT_SIZE));
         button.setFocusPainted(false);
 
         button.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button.setBackground(new Color(0x87B2C8));
+            @Override
+            public void mouseEntered(final java.awt.event.MouseEvent evt) {
+                button.setBackground(BUTTON_HOVER_COLOR);
             }
 
-            public void mouseExited(java.awt.event.MouseEvent evt) {
+            @Override
+            public void mouseExited(final java.awt.event.MouseEvent evt) {
                 button.setBackground(color);
             }
         });

@@ -11,26 +11,33 @@ import unibo.citysimulation.utilities.Pair;
 
 import java.util.List;
 import java.util.Optional;
+
 /**
  * Interface for the CityModel.
  */
-public interface CityModel { 
+public interface CityModel {
+
     /**
-     * Create the entities of the city.
+     * Creates the entities in the city model, such as businesses and people.
+     *
+     * @param extraBusinesses The number of extra businesses to create.
      */
     void createEntities(int extraBusinesses);
 
     /**
      * Get the zone in which the position is located.
-     * @param position
-     * @return an optional of the zone in which the position is located.
+     *
+     * @param position The position to check.
+     * @return An Optional of the zone in which the position is located.
      */
     Optional<Zone> getZoneByPosition(Pair<Integer, Integer> position);
+
     /**
-     * Check if the position is in the zone.
-     * @param position
-     * @param zone
-     * @return a boolean that is true if the position is in the zone, false otherwise.
+     * Check if the position is in the specified zone.
+     *
+     * @param position The position to check.
+     * @param zone     The zone to check against.
+     * @return true if the position is in the zone, false otherwise.
      */
     boolean isPositionInZone(Pair<Integer, Integer> position, Zone zone);
 
@@ -41,62 +48,84 @@ public interface CityModel {
      * @return The average pay in the zone.
      */
     double avaragePayZone(Zone zone);
+
     /**
-     * get the number of direct lines from the zone.
-     * @param zone
-     * @return the number of direct lines from the zone.
+     * Get the number of direct lines from the specified zone.
+     *
+     * @param zone The zone to check.
+     * @return The number of direct lines from the zone.
      */
     int getNumberOfDirectLinesFromZone(Zone zone);
+
     /**
-     * take the frame size.
+     * Takes the frame size of the city model.
      */
     void takeFrameSize();
+
     /**
-     * set the screen size.
-     * @param newWidth
-     * @param newHeight
+     * Sets the screen size of the city model.
+     *
+     * @param newWidth  The new width of the screen.
+     * @param newHeight The new height of the screen.
      */
     void setScreenSize(int newWidth, int newHeight);
+
     /**
-     * get the map model.
-     * @return the map model.
+     * Get the map model of the city.
+     *
+     * @return The map model.
      */
     MapModel getMapModel();
+
     /**
-     * get the clock model.
-     * @return the clock model.
+     * Get the clock model of the city.
+     *
+     * @return The clock model.
      */
     ClockModel getClockModel();
+
     /**
-     * get the input model.
-     * @return the input model.
+     * Get the input model of the city.
+     *
+     * @return The input model.
      */
     InputModel getInputModel();
+
     /**
-     * get the graphics model.
-     * @return the graphics model.
+     * Get the graphics model of the city.
+     *
+     * @return The graphics model.
      */
     GraphicsModel getGraphicsModel();
+
     /**
-     * get the zones.
-     * @return the list of zones.
+     * Get the list of zones in the city.
+     *
+     * @return The list of zones.
      */
     List<Zone> getZones();
+
     /**
-     * get the transport lines.
-     * @return the list of transport lines.
+     * Get the list of transport lines in the city.
+     *
+     * @return The list of transport lines.
      */
     List<TransportLine> getTransportLines();
+
     /**
-     * get the businesses.
-     * @return the list of businesses.
+     * Get the list of businesses in the city.
+     *
+     * @return The list of businesses.
      */
     List<Business> getBusinesses();
+
     /**
-     * get the people.
-     * @return the list of all the people in the simulation.
+     * Get the list of all people in the simulation.
+     *
+     * @return The list of all people.
      */
     List<DynamicPerson> getAllPeople();
+
     /**
      * Checks if there are any people present in the city.
      *
@@ -114,14 +143,14 @@ public interface CityModel {
     /**
      * Returns the width of the frame.
      *
-     * @return the width of the frame.
+     * @return The width of the frame.
      */
     int getFrameWidth();
 
     /**
      * Returns the height of the frame.
      *
-     * @return the height of the frame.
+     * @return The height of the frame.
      */
     int getFrameHeight();
 
@@ -129,7 +158,8 @@ public interface CityModel {
      * Returns the number of people in the specified zone.
      *
      * @param zoneName The name of the zone.
-     * @return The number of people in the zone, or an empty Optional if the zone does not exist.
+     * @return The number of people in the zone, or an empty Optional if the zone
+     *         does not exist.
      */
     Optional<Integer> getPeopleInZone(String zoneName);
 
@@ -142,16 +172,15 @@ public interface CityModel {
     int getBusinessesInZone(String zoneName);
 
     /**
-     * Removes the specified number of businesses from the city.
-     *
-     * @param numberOfBusinesses The number of businesses to remove.
+     * Removes all businesses from the city.
      */
     void removeBusinesses();
 
     /**
      * Returns a random person from the city.
      *
-     * @return An Optional containing a random person, or an empty Optional if there are no people in the city.
+     * @return An Optional containing a random person, or an empty Optional if there
+     *         are no people in the city.
      */
     Optional<DynamicPerson> getRandomPerson();
 }

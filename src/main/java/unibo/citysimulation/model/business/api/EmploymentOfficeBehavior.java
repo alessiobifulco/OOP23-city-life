@@ -1,43 +1,30 @@
 package unibo.citysimulation.model.business.api;
 
 /**
- * The EmploymentOfficeBehavior interface defines methods for handling employees in a business.
+ * The EmploymentOfficeBehavior interface represents the behavior of an
+ * employment office in a city simulation.
+ * It defines methods for handling employee firing, hiring, and payment.
  */
 public interface EmploymentOfficeBehavior {
+
     /**
-     * Handles the firing of employees for the specified business.
-     * For each employee that should be fired, adds the person to the employment office's disoccupied people list
-     * and fires the employee from their business.
+     * Handles the firing of an employee from a business.
      * 
-     * @param business The business for which to handle employee firing.
-     * @param hiredCount The number of people hired previously.
+     * @param business the business from which the employee is being fired
      */
     void handleEmployeeFiring(Business business);
 
     /**
-     * Handles the hiring of employees for the specified business.
-     * Hires a minimum of 4 employees from the employment office's disoccupied people list 
-     * or up to the maximum number of employees allowed for the business.
+     * Handles the hiring of an employee by a business.
      * 
-     * @param business The business for which to handle employee hiring.
-     * @return The number of people hired.
+     * @param business the business that is hiring the employee
      */
     void handleEmployeeHiring(Business business);
 
     /**
-     * Handles the payment of employees for the specified business.
-     * Pays each employee in the business the amount of money they are owed.
+     * Handles the payment of an employee by a business.
      * 
-     * @param business The business for which to handle employee payment.
+     * @param business the business that is paying the employee
      */
     void handleEmployeePay(Business business);
-    
-    /**
-     * Handles both the firing and hiring of employees for the specified business.
-     * Ensures that all employees who should be fired are fired and continues to hire employees
-     * until the maximum number of employees is reached.
-     * 
-     * @param business The business for which to handle employee management.
-     */
-    void handleEmployees(Business business);
 }

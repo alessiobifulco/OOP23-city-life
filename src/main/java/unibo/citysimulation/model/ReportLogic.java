@@ -4,25 +4,39 @@ import unibo.citysimulation.model.person.api.DynamicPerson;
 
 import java.util.List;
 
-public class ReportLogic {
+/**
+ * Utility class for generating simulation reports.
+ */
+public final class ReportLogic {
 
-    public static String generateReport(CityModel cityModel) {
-        List<DynamicPerson> people = cityModel.getAllPeople();
-        long employedCount = people.stream().filter(p -> p.getBusiness().isPresent()).count();
-        long unemployedCount = people.size() - employedCount;
+    // Private constructor to prevent instantiation
+    private ReportLogic() {
+        throw new UnsupportedOperationException("Utility class");
+    }
 
-        double averageOccupationRate = (double) employedCount / people.size();
+    /**
+     * Generates a report based on the current state of the city model.
+     * 
+     * @param cityModel the city model containing all simulation data
+     * @return a formatted string report
+     */
+    public static String generateReport(final CityModel cityModel) {
+        final List<DynamicPerson> people = cityModel.getAllPeople();
+        final long employedCount = people.stream().filter(p -> p.getBusiness().isPresent()).count();
+        final long unemployedCount = people.size() - employedCount;
 
+        final double averageOccupationRate = (double) employedCount / people.size();
 
+        final StringBuilder report = new StringBuilder(256);  
 
-        StringBuilder report = new StringBuilder();
-        report.append("Simulation Report\n");
-        report.append("=================\n");
-        report.append("Total people: ").append(people.size()).append("\n");
-        report.append("Employed people: ").append(employedCount).append("\n");
-        report.append("Unemployed people: ").append(unemployedCount).append("\n");
-        report.append("Average occupation rate: ").append(String.format("%.2f", averageOccupationRate * 100)).append("%\n");
-    
+        report.append("Simulation Report\n")
+              .append("=================\n")
+              .append("Total people: ").append(people.size()).append("\n")
+              .append("Employed people: ").append(employedCount).append("\n")
+              .append("Unemployed people: ").append(unemployedCount).append("\n")
+              .append("Average occupation rate: ")
+              .append(String.format("%.2f", averageOccupationRate * 100)).append("%\n");
+
         return report.toString();
     }
 }

@@ -6,8 +6,10 @@ import java.time.LocalTime;
  * Represents a dynamic person that can change state based on the current time and move in order to work.
  */
 /**
- * The DynamicPerson interface represents a person with dynamic behavior in a city simulation.
- * It extends the StaticPerson interface, which defines the static characteristics of a person.
+ * The DynamicPerson interface represents a person with dynamic behavior in a
+ * city simulation.
+ * It extends the StaticPerson interface, which defines the static
+ * characteristics of a person.
  */
 public interface DynamicPerson extends StaticPerson {
     /**
@@ -16,12 +18,14 @@ public interface DynamicPerson extends StaticPerson {
      * @param currentTime the current time.
      */
     void checkState(LocalTime currentTime);
+
     /**
      * Sets the beginning time of the person's business.
      * 
      * @param businessBegin the beginning time of the person's business.
      */
     void setBusinessBegin(LocalTime businessBegin);
+
     /**
      * Sets the end time of the person's business.
      * 

@@ -11,16 +11,15 @@ import unibo.citysimulation.model.business.utilities.BusinessType;
 import unibo.citysimulation.model.zone.Zone;
 
 /**
- * Represents a small business in the city simulation.
- * Inherits from the Business class.
+ * A small business implementation of the {@link Business} interface.
  */
-public class SmallBusiness implements Business {
+public final class SmallBusiness implements Business {
     private final BusinessData businessData;
 
     /**
-     * Creates a small business in the city simulation.
-     * 
-     * @param id   the id of the small business
+     * Constructs a new SmallBusiness object with the given ID and zone.
+     *
+     * @param id   the ID of the small business
      * @param zone the zone where the small business is located
      */
     public SmallBusiness(final int id, final Zone zone) {
@@ -39,6 +38,11 @@ public class SmallBusiness implements Business {
                 BusinessType.SMALL);
     }
 
+    /**
+     * Hires an employee for the small business.
+     *
+     * @param employee the employee to hire
+     */
     @Override
     public void hire(final Employee employee) {
         if (employee != null && businessData.employees().size() < businessData.maxEmployees()) {
@@ -46,6 +50,11 @@ public class SmallBusiness implements Business {
         }
     }
 
+    /**
+     * Fires an employee from the small business.
+     *
+     * @param employee the employee to fire
+     */
     @Override
     public void fire(final Employee employee) {
         if (employee != null && employee.count() > businessData.maxTardiness()) {
@@ -53,6 +62,11 @@ public class SmallBusiness implements Business {
         }
     }
 
+    /**
+     * Checks the delays of the employees at the opening time of the small business.
+     *
+     * @param currentTime the current time
+     */
     @Override
     public void checkEmployeeDelays(final LocalTime currentTime) {
         if (currentTime.equals(businessData.openingTime())) {
@@ -64,17 +78,32 @@ public class SmallBusiness implements Business {
         }
     }
 
+    /**
+     * Calculates the total pay for the small business.
+     *
+     * @return the total pay
+     */
     @Override
     public double calculatePay() {
         final double hoursworked = businessData.closingTime().getHour() - businessData.openingTime().getHour();
         return hoursworked * businessData.revenue();
     }
 
+    /**
+     * Gets the business data of the small business.
+     *
+     * @return the business data
+     */
     @Override
     public BusinessData getBusinessData() {
         return businessData;
     }
 
+    /**
+     * Gets the business type of the small business.
+     *
+     * @return the business type
+     */
     @Override
     public BusinessType getBusinessType() {
         return businessData.businessType();

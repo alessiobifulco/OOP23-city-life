@@ -13,7 +13,7 @@ import unibo.citysimulation.utilities.Pair;
  */
 @SuppressFBWarnings(value = "EI", justification = """
         """)
-public class Employee implements EmployeeBehavior {
+public final class Employee implements EmployeeBehavior {
     private final DynamicPerson person;
     private final BusinessData businessData;
     private int count;

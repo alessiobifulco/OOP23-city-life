@@ -62,7 +62,7 @@ public class InputController {
         inputModel.setNumberOfPeople(inputPanel.getPeopleSliderValue());
         inputModel.setCapacity(inputPanel.getCapacitySliderValue());
         // Create entities
-        int extraBusinesses = inputPanel.getBusinessSliderValue();
+        final int extraBusinesses = inputPanel.getBusinessSliderValue();
         cityModel.createEntities(extraBusinesses);
         // Restart the clock simulation
         cityModel.getClockModel().restartSimulation();
@@ -78,7 +78,7 @@ public class InputController {
         // Update the pause button state on the clock panel
         clockPanel.updatePauseButton(cityModel.getClockModel().isPaused());
         clockPanel.setPauseButtonEnabled(false);
-        ReportController reportController = new ReportController(cityModel);
+        final ReportController reportController = new ReportController(cityModel);
         reportController.showReport();
     }
 }

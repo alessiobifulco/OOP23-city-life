@@ -10,22 +10,23 @@ import unibo.citysimulation.model.business.utilities.BusinessType;
 import unibo.citysimulation.model.zone.Zone;
 
 /**
- * The BusinessFactoryImpl class is responsible for creating instances of Business objects.
+ * A factory class for creating instances of {@link Business}.
  */
 public final class BusinessFactoryImpl {
 
     private static final Random RANDOM = new Random();
-    private static int id = 0;
+    private static int id;
 
     private BusinessFactoryImpl() {
     }
 
     /**
-     * Creates a new Business object based on the specified BusinessType.
+     * Creates a new business of the specified type in the given zone.
      *
-     * @param type The type of business to create.
-     * @param zone The zone where the business is located.
-     * @return An Optional containing the created Business object, or an empty Optional if the type is invalid.
+     * @param type The type of the business to create.
+     * @param zone The zone where the business will be located.
+     * @return An {@link Optional} containing the created business, or an empty
+     *         {@link Optional} if the business type is not supported.
      */
     public static Optional<Business> createBusiness(final BusinessType type, final Zone zone) {
         return switch (type) {
@@ -35,11 +36,13 @@ public final class BusinessFactoryImpl {
             default -> Optional.empty();
         };
     }
+
     /**
-     * Creates a random Business object.
+     * Creates a random business in one of the given zones.
      *
-     * @param zones The list of available zones.
-     * @return An Optional containing the created Business object.
+     * @param zones The list of zones where the business can be located.
+     * @return An {@link Optional} containing the created business, or an empty
+     *         {@link Optional} if no zones are provided.
      */
     public static Optional<Business> createRandomBusiness(final List<Zone> zones) {
         final BusinessType type = BusinessType.values()[RANDOM.nextInt(BusinessType.values().length)];
@@ -48,11 +51,12 @@ public final class BusinessFactoryImpl {
     }
 
     /**
-     * Creates multiple Business objects.
+     * Creates multiple businesses in the given zones.
      *
-     * @param zones The list of available zones.
-     * @param numberOfPeople The number of people.
-     * @return A collection of created Business objects.
+     * @param zones              The list of zones where the businesses can be
+     *                           located.
+     * @param numberOfBusinesses The number of businesses to create.
+     * @return A list of created businesses.
      */
     public static List<Business> createMultipleBusiness(final List<Zone> zones, final int numberOfBusinesses) {
         final List<Business> businesses = new ArrayList<>();

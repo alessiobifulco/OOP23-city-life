@@ -74,17 +74,20 @@ public interface StaticPerson {
     Optional<Pair<Integer, Integer>> getPosition();
 
     /**
-     * Returns an Optional object representing the business associated with this person.
+     * Returns an Optional object representing the business associated with this
+     * person.
      *
-     * @return an Optional object containing the business associated with this person, 
-     * or an empty Optional if no business is associated.
+     * @return an Optional object containing the business associated with this
+     *         person,
+     *         or an empty Optional if no business is associated.
      */
     Optional<Business> getBusiness();
 
     /**
      * Sets the business for the person.
      *
-     * @param business an optional representing the business the person is associated with
+     * @param business an optional representing the business the person is
+     *                 associated with
      */
     void setBusiness(Optional<Business> business);
 }

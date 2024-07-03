@@ -12,7 +12,8 @@ import unibo.citysimulation.model.business.utilities.EmploymentOfficeData;
 import unibo.citysimulation.model.person.api.DynamicPerson;
 
 /**
- * The EmploymentOfficeManager class manages the hiring and firing of employees for businesses.
+ * The EmploymentOfficeManager class implements the EmploymentOfficeBehavior
+ * interface and provides the behavior for managing employees in a business.
  */
 public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
 
@@ -22,9 +23,10 @@ public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
     private static final LocalTime TIME_ZERO = LocalTime.of(ZERO, ZERO);
 
     /**
-     * Constructs an EmploymentOfficeManager with the given employment office.
-     *
-     * @param employmentOffice The employment office to interact with.
+     * Constructs an EmploymentOfficeManager object with the given employment office
+     * data.
+     * 
+     * @param employmentOffice the employment office data
      */
     public EmploymentOfficeManager(final EmploymentOfficeData employmentOffice) {
         this.employmentOffice = employmentOffice;
@@ -32,41 +34,28 @@ public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
     }
 
     /**
-     * Handles both the firing and hiring of employees for the specified business.
-     * Ensures that all employees who should be fired are fired and continues to hire employees
-     * until the maximum number of employees is reached.
-     *
-     * @param business The business for which to handle employee management.
-     */
-    @Override
-    public final void handleEmployees(final Business business) {
-        handleEmployeeFiring(business);
-        handleEmployeeHiring(business);
-    }
-
-    /**
-     * Handles the firing of employees for the specified business.
-     *
-     * @param business The business for which to handle employee firing.
+     * Handles the firing of employees in the business.
+     * 
+     * @param business the business to handle employee firing for
      */
     @Override
     public final void handleEmployeeFiring(final Business business) {
         final List<Employee> employeesToFire = getEmployeesToFire(business);
-        int numToFire = random.nextInt(employeesToFire.size() + 1);
+        final int numToFire = random.nextInt(employeesToFire.size() + 1);
         fireEmployees(business, employeesToFire.stream().limit(numToFire).collect(Collectors.toList()));
     }
 
     /**
-     * Handles the hiring of employees for the specified business.
-     *
-     * @param business The business for which to handle employee hiring.
+     * Handles the hiring of employees in the business.
+     * 
+     * @param business the business to handle employee hiring for
      */
     @Override
     public final void handleEmployeeHiring(final Business business) {
         while (canHire(business)) {
             final Optional<List<DynamicPerson>> peopleToHire = getPeopleToHire(business);
             if (peopleToHire.isPresent()) {
-                int numToHire = random.nextInt(peopleToHire.get().size() + 1);
+                final int numToHire = random.nextInt(peopleToHire.get().size() + 1);
                 hirePeople(business, peopleToHire.get().stream().limit(numToHire).collect(Collectors.toList()));
             } else {
                 break;
@@ -75,34 +64,35 @@ public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
     }
 
     /**
-     * Checks if a business can hire more employees.
-     *
-     * @param business The business to check.
-     * @return true if the business can hire more employees, false otherwise.
+     * Checks if the business can hire more employees.
+     * 
+     * @param business the business to check
+     * @return true if the business can hire more employees, false otherwise
      */
     private boolean canHire(final Business business) {
         return business.getBusinessData().employees().size() < business.getBusinessData().maxEmployees();
     }
 
     /**
-     * Checks if an employee should be fired based on their delay count.
-     *
-     * @param employee The employee to check.
-     * @return true if the employee should be fired, false otherwise.
+     * Checks if an employee should be fired based on their tardiness.
+     * 
+     * @param employee the employee to check
+     * @return true if the employee should be fired, false otherwise
      */
     private boolean shouldFire(final Employee employee) {
         return employee != null && employee.count() > employee.businessData().maxTardiness();
     }
 
     /**
-     * Retrieves a random number of disoccupied people to be hired by the business.
-     * Filters out people who live in the same zone as the business.
-     *
-     * @param business The business that will hire the people.
-     * @return The list of people to be hired.
+     * Gets a list of people eligible to be hired by the business.
+     * 
+     * @param business the business to get eligible people for
+     * @return an optional list of eligible people, or an empty optional if no
+     *         eligible people are found
      */
     private Optional<List<DynamicPerson>> getPeopleToHire(final Business business) {
-        final int availableSpots = business.getBusinessData().maxEmployees() - business.getBusinessData().employees().size();
+        final int availableSpots = business.getBusinessData().maxEmployees()
+                - business.getBusinessData().employees().size();
         if (availableSpots > 0) {
             final List<DynamicPerson> disoccupiedPeople = employmentOffice.disoccupied();
             final List<DynamicPerson> eligiblePeople = disoccupiedPeople.stream()
@@ -116,15 +106,14 @@ public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
     }
 
     /**
-     * Hires the specified people for the given business and removes them from the employment office.
-     *
-     * @param business The business that will hire the people.
-     * @param peopleToHire The list of people to be hired.
-     * @return The number of people hired.
+     * Hires the specified people for the business.
+     * 
+     * @param business     the business to hire people for
+     * @param peopleToHire the list of people to hire
      */
-    private int hirePeople(final Business business, final List<DynamicPerson> peopleToHire) {
-        int hiredCount = 0;
-        for (DynamicPerson person : peopleToHire) {
+    private void hirePeople(final Business business, final List<DynamicPerson> peopleToHire) {
+
+        for (final DynamicPerson person : peopleToHire) {
             if (canHire(business)) {
                 final Employee employee = new Employee(person, business.getBusinessData());
                 business.hire(employee);
@@ -132,17 +121,15 @@ public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
                 person.setBusiness(Optional.of(business));
                 person.setBusinessBegin(business.getBusinessData().openingTime());
                 person.setBusinessEnd(business.getBusinessData().closingTime());
-                hiredCount++;
             }
         }
-        return hiredCount;
     }
 
     /**
-     * Retrieves a list of employees that should be fired from the specified business.
-     *
-     * @param business The business to check for employees to fire.
-     * @return The list of employees to be fired.
+     * Gets a list of employees to be fired from the business.
+     * 
+     * @param business the business to get employees to fire from
+     * @return a list of employees to fire
      */
     private List<Employee> getEmployeesToFire(final Business business) {
         return business.getBusinessData().employees().stream()
@@ -151,10 +138,10 @@ public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
     }
 
     /**
-     * Fires the specified employees and adds them to the employment office's disoccupied people list.
-     *
-     * @param business The business that will fire the employees.
-     * @param employeesToFire The list of employees to be fired.
+     * Fires the specified employees from the business.
+     * 
+     * @param business        the business to fire employees from
+     * @param employeesToFire the list of employees to fire
      */
     private void fireEmployees(final Business business, final List<Employee> employeesToFire) {
         employeesToFire.forEach(employee -> {
@@ -167,10 +154,9 @@ public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
     }
 
     /**
-     * Handles the payment for all employees in the given business.
-     * Calculates the pay for each employee and adds it to their personal account.
-     *
-     * @param business the business for which the payment is being handled
+     * Handles the payment of employees in the business.
+     * 
+     * @param business the business to handle employee pay for
      */
     @Override
     public final void handleEmployeePay(final Business business) {

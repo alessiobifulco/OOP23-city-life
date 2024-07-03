@@ -15,6 +15,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import unibo.citysimulation.view.rounded.RoundedButton;
 
@@ -23,6 +25,14 @@ import unibo.citysimulation.view.rounded.RoundedButton;
  */
 public class ClockPanelImpl extends StyledPanel implements ClockPanel {
     private static final long serialVersionUID = 1L;
+    private static final int BUTTON_WIDTH = 80;
+    private static final int BUTTON_HEIGHT = 35;
+    private static final int FONT_SIZE = 14;
+    private static final Color BUTTON_BG_COLOR = new Color(0xA7C4D4);
+    private static final Color BUTTON_HOVER_BG_COLOR = new Color(0x87B2C8);
+    private static final Color BUTTON_FG_COLOR = Color.BLACK;
+    private static final Color LABEL_FG_COLOR = Color.BLACK;
+
     private final JLabel timeDay = new JLabel("Day: 1", SwingConstants.CENTER);
     private final JLabel timeHour = new JLabel("Hour: 00:00", SwingConstants.CENTER);
     private final RoundedButton speedButton;
@@ -44,8 +54,8 @@ public class ClockPanelImpl extends StyledPanel implements ClockPanel {
         timePanel.setBackground(bgColor);
         timeDay.setFont(new Font("Roboto", Font.BOLD, ConstantAndResourceLoader.CLOCK_PANEL_FONT_SIZE));
         timeHour.setFont(new Font("Roboto", Font.BOLD, ConstantAndResourceLoader.CLOCK_PANEL_FONT_SIZE));
-        timeDay.setForeground(Color.BLACK);
-        timeHour.setForeground(Color.BLACK);
+        timeDay.setForeground(LABEL_FG_COLOR);
+        timeHour.setForeground(LABEL_FG_COLOR);
         timePanel.add(timeDay);
         timePanel.add(timeHour);
 
@@ -55,21 +65,23 @@ public class ClockPanelImpl extends StyledPanel implements ClockPanel {
         add(pauseButton, BorderLayout.EAST);
     }
 
-    private RoundedButton createButton(String text) {
+    private RoundedButton createButton(final String text) {
         final RoundedButton button = new RoundedButton(text);
-        button.setForeground(Color.BLACK);
-        button.setBackground(new Color(0xA7C4D4));
-        button.setFont(new Font("Roboto", Font.PLAIN, 14));
-        button.setPreferredSize(new Dimension(80, 35));
+        button.setForeground(BUTTON_FG_COLOR);
+        button.setBackground(BUTTON_BG_COLOR);
+        button.setFont(new Font("Roboto", Font.PLAIN, FONT_SIZE));
+        button.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
         button.setFocusPainted(false);
 
-        button.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button.setBackground(new Color(0x87B2C8));
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(final MouseEvent evt) {
+                button.setBackground(BUTTON_HOVER_BG_COLOR);
             }
 
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                button.setBackground(new Color(0xA7C4D4));
+            @Override
+            public void mouseExited(final MouseEvent evt) {
+                button.setBackground(BUTTON_BG_COLOR);
             }
         });
         return button;

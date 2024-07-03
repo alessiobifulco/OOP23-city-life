@@ -12,16 +12,15 @@ import unibo.citysimulation.model.business.utilities.BusinessType;
 
 /**
  * Represents a big business in the city simulation.
- * Extends the Business class.
  */
 public class BigBusiness implements Business {
     private final BusinessData businessData;
 
     /**
-     * Creates a big business in the city simulation.
-     * 
-     * @param id   the id of the big business
-     * @param zone the zone where the big business is located
+     * Constructs a new BigBusiness object with the given ID and zone.
+     *
+     * @param id   the ID of the business
+     * @param zone the zone where the business is located
      */
     public BigBusiness(final int id, final Zone zone) {
         this.businessData = new BusinessData(
@@ -39,6 +38,11 @@ public class BigBusiness implements Business {
                 BusinessType.BIG);
     }
 
+    /**
+     * Hires an employee for the business.
+     *
+     * @param employee the employee to hire
+     */
     @Override
     public void hire(final Employee employee) {
         if (employee != null && businessData.employees().size() < businessData.maxEmployees()) {
@@ -46,6 +50,11 @@ public class BigBusiness implements Business {
         }
     }
 
+    /**
+     * Fires an employee from the business.
+     *
+     * @param employee the employee to fire
+     */
     @Override
     public void fire(final Employee employee) {
         if (employee != null && employee.count() > businessData.maxTardiness()) {
@@ -53,6 +62,11 @@ public class BigBusiness implements Business {
         }
     }
 
+    /**
+     * Checks the delays of the employees at the current time.
+     *
+     * @param currentTime the current time
+     */
     @Override
     public void checkEmployeeDelays(final LocalTime currentTime) {
         if (currentTime.equals(businessData.openingTime())) {
@@ -64,17 +78,32 @@ public class BigBusiness implements Business {
         }
     }
 
+    /**
+     * Calculates the total pay for the business.
+     *
+     * @return the total pay
+     */
     @Override
     public double calculatePay() {
         final double hoursworked = businessData.closingTime().getHour() - businessData.openingTime().getHour();
         return hoursworked * businessData.revenue();
     }
 
+    /**
+     * Gets the business data.
+     *
+     * @return the business data
+     */
     @Override
     public BusinessData getBusinessData() {
         return businessData;
     }
 
+    /**
+     * Gets the business type.
+     *
+     * @return the business type
+     */
     @Override
     public BusinessType getBusinessType() {
         return businessData.businessType();

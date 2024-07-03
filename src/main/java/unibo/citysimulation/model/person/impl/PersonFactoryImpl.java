@@ -15,19 +15,19 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * The PersonFactory class is responsible for creating instances of
- * DynamicPerson objects.
+ * Implementation of the {@link PersonFactory} interface.
  */
 public final class PersonFactoryImpl implements PersonFactory {
     private static Random random = new Random();
 
     /**
-     * Creates all the people for the simulation.
+     * Creates all the people in the city simulation based on the given parameters.
      *
-     * @param numberOfPeople The total number of people to create, given in input.
-     * @param zones          The list of available zones.
-     * @param businesses     The list of available businesses.
-     * @return A list of lists of DynamicPerson objects for every zone.
+     * @param numberOfPeople the total number of people to create
+     * @param zones          the list of zones in the city
+     * @param businesses     the list of businesses in the city
+     * @return a list of lists, where each inner list represents a group of people
+     *         in a specific zone
      */
     @Override
     public List<List<DynamicPerson>> createAllPeople(final int numberOfPeople, final List<Zone> zones,
@@ -43,15 +43,15 @@ public final class PersonFactoryImpl implements PersonFactory {
     }
 
     /**
-     * Creates a group of people for a certain zone.
-     * 
-     * @param groupCounter   a counter for the group of people.
-     * @param numberOfPeople The number of people to create for the given zone.
-     * @param moneyMinMax    The minimum and maximum amount of money that the people
-     *                       can have in that zone.
-     * @param businesses     The list of available businesses.
-     * @param residenceZone  The zone where this group of people will live.
-     * @return A list of DynamicPerson objects for the given zone.
+     * Creates a group of people in a specific zone based on the given parameters.
+     *
+     * @param groupCounter   the counter for the group
+     * @param numberOfPeople the number of people to create in the group
+     * @param moneyMinMax    the minimum and maximum money values for the people in
+     *                       the group
+     * @param businesses     the list of businesses in the city
+     * @param residenceZone  the zone where the people in the group reside
+     * @return a list of dynamic persons representing the group of people
      */
     @Override
     public List<DynamicPerson> createGroupOfPeople(final int groupCounter, final int numberOfPeople,
@@ -62,8 +62,8 @@ public final class PersonFactoryImpl implements PersonFactory {
             final DynamicPerson person = createPerson(
                     "Person" + groupCounter + i,
                     random.nextInt((ConstantAndResourceLoader.MAX_RANDOM_AGE - ConstantAndResourceLoader.MIN_AGE)
-                    + 1) + ConstantAndResourceLoader.MIN_AGE,
-                    Optional.empty(), 
+                            + 1) + ConstantAndResourceLoader.MIN_AGE,
+                    Optional.empty(),
                     residenceZone,
                     random.nextInt(moneyMinMax.getSecond() - moneyMinMax.getFirst()) + moneyMinMax.getFirst());
             people.add(person);
@@ -73,7 +73,7 @@ public final class PersonFactoryImpl implements PersonFactory {
             for (final Business business : businesses) {
                 if (person.getPersonData().age() >= business.getBusinessData().minAge()
                         && person.getPersonData().age() <= business.getBusinessData().maxAge()
-                        && business.getBusinessData().employees().size() < business.getBusinessData().maxEmployees() 
+                        && business.getBusinessData().employees().size() < business.getBusinessData().maxEmployees()
                         && !business.getBusinessData().zone().equals(person.getPersonData().residenceZone())) {
                     business.hire(new Employee(person, business.getBusinessData()));
                     person.setBusiness(Optional.of(business));
@@ -91,19 +91,18 @@ public final class PersonFactoryImpl implements PersonFactory {
     }
 
     /**
-     * Creates a single person.
-     * 
-     * @param name          The name of the person.
-     * @param age           The age of the person.
-     * @param business      The business where the person works, if any.
-     * @param residenceZone The zone where the person lives.
-     * @param money         The amount of money that the person has at the creation
-     *                      moment.
-     * @return A DynamicPerson object.
+     * Creates a dynamic person with the given parameters.
+     *
+     * @param name          the name of the person
+     * @param age           the age of the person
+     * @param business      the optional business the person is associated with
+     * @param residenceZone the zone where the person resides
+     * @param money         the amount of money the person has
+     * @return a dynamic person object
      */
     @Override
     public DynamicPerson createPerson(final String name, final int age, final Optional<Business> business,
             final Zone residenceZone, final int money) {
-                return new DynamicPersonImpl(new PersonData(name, age, residenceZone), money, business);
+        return new DynamicPersonImpl(new PersonData(name, age, residenceZone), money, business);
     }
 }

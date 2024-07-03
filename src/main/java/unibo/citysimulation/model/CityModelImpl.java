@@ -34,6 +34,11 @@ import java.util.Random;
 import java.util.Collections;
 import java.util.Iterator;
 
+/**
+ * Implementation of the CityModel interface.
+ * This class represents the core model of the city simulation, managing all
+ * zones, transport lines, businesses, and people.
+ */
 @SuppressFBWarnings(value = "EI", justification = """
         Considering the basic structure of the application, we choose to
         pass the mutable models as parameters, because we need to keep them always updated. In every case, we pass
@@ -50,8 +55,13 @@ public final class CityModelImpl implements CityModel {
     private final EmploymentOfficeData employmentOfficeData;
     private int frameWidth;
     private int frameHeight;
-    private int numberOfBusinesses;
+    private final Random random = new Random();
 
+    /**
+     * Constructs a new CityModelImpl object.
+     * Initializes the map model, clock model, input model, graphics model, zones,
+     * transports, and employment office data.
+     */
     public CityModelImpl() {
         takeFrameSize();
 
@@ -65,23 +75,28 @@ public final class CityModelImpl implements CityModel {
         this.employmentOfficeData = new EmploymentOfficeData(new LinkedList<>());
     }
 
+    /**
+     * Creates the entities (businesses and people) for the simulation.
+     * 
+     * @param extraBusinesses The number of extra businesses to add.
+     */
     @Override
-    public void createEntities(int extraBusinesses) {
+    public void createEntities(final int extraBusinesses) {
+        
         graphicsModel.clearDatasets();
 
         transports = new TransportFactoryImpl().createTransportsFromFile(zones);
         transports.forEach(t -> t.setCapacity(t.getCapacity() * inputModel.getCapacity() / 100));
 
         ZoneTableCreation.createAndAddPairs(zones, transports);
- 
-        numberOfBusinesses = inputModel.getNumberOfPeople() / ConstantAndResourceLoader.PERC_BUSINESS;
-        
-        if(extraBusinesses > 0) {
+
+        int numberOfBusinesses = inputModel.getNumberOfPeople() / ConstantAndResourceLoader.PERC_BUSINESS;
+
+        if (extraBusinesses > 0) {
             numberOfBusinesses += extraBusinesses;
-            businesses = BusinessFactoryImpl.createMultipleBusiness(zones, numberOfBusinesses);
-        } else {
-            businesses = BusinessFactoryImpl.createMultipleBusiness(zones, numberOfBusinesses);
         }
+
+        businesses = BusinessFactoryImpl.createMultipleBusiness(zones, numberOfBusinesses);
 
         this.people = new ArrayList<>();
         people = new PersonFactoryImpl().createAllPeople(getInputModel().getNumberOfPeople(), zones, businesses);
@@ -94,10 +109,15 @@ public final class CityModelImpl implements CityModel {
             }
         }
         clockModel.addObserver(new ClockObserverPerson(people));
-
         clockModel.addObserver(new ClockObserverBusiness(businesses, employmentOfficeData));
     }
 
+    /**
+     * Calculates the average pay in a given zone.
+     * 
+     * @param zone The zone to calculate the average pay for.
+     * @return The average pay in the zone.
+     */
     @Override
     public double avaragePayZone(final Zone zone) {
         double avarage = 0;
@@ -110,10 +130,15 @@ public final class CityModelImpl implements CityModel {
                 avarage = sum / businessCount;
             }
         }
-        sum = 0;
         return avarage;
     }
 
+    /**
+     * Gets the number of direct transport lines from a given zone.
+     * 
+     * @param zone The zone to check for direct transport lines.
+     * @return The number of direct transport lines from the zone.
+     */
     @Override
     public int getNumberOfDirectLinesFromZone(final Zone zone) {
         int numberOfDirectLines = 0;
@@ -125,6 +150,9 @@ public final class CityModelImpl implements CityModel {
         return numberOfDirectLines;
     }
 
+    /**
+     * Determines the frame size based on the screen size.
+     */
     @Override
     public void takeFrameSize() {
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -138,6 +166,12 @@ public final class CityModelImpl implements CityModel {
         this.frameWidth = frameWidth;
     }
 
+    /**
+     * Sets the screen size to the specified width and height.
+     * 
+     * @param newWidth  The new width of the screen.
+     * @param newHeight The new height of the screen.
+     */
     @Override
     public void setScreenSize(final int newWidth, final int newHeight) {
         final int oldWidth = frameWidth;
@@ -166,6 +200,12 @@ public final class CityModelImpl implements CityModel {
         mapModel.setTransportInfo(transports);
     }
 
+    /**
+     * Gets the zone by a given position.
+     * 
+     * @param position The position to check for a zone.
+     * @return An Optional containing the zone if found, otherwise empty.
+     */
     @Override
     public Optional<Zone> getZoneByPosition(final Pair<Integer, Integer> position) {
         return zones.stream()
@@ -173,6 +213,13 @@ public final class CityModelImpl implements CityModel {
                 .findFirst();
     }
 
+    /**
+     * Checks if a position is within a given zone.
+     * 
+     * @param position The position to check.
+     * @param zone     The zone to check within.
+     * @return True if the position is within the zone, false otherwise.
+     */
     @Override
     public boolean isPositionInZone(final Pair<Integer, Integer> position, final Zone zone) {
         final int x = position.getFirst();
@@ -182,41 +229,81 @@ public final class CityModelImpl implements CityModel {
                 && y >= boundary.getY() && y <= (boundary.getY() + boundary.getHeight());
     }
 
+    /**
+     * Gets the map model.
+     * 
+     * @return The map model.
+     */
     @Override
     public MapModelImpl getMapModel() {
         return this.mapModel;
     }
 
+    /**
+     * Gets the clock model.
+     * 
+     * @return The clock model.
+     */
     @Override
     public ClockModel getClockModel() {
         return this.clockModel;
     }
 
+    /**
+     * Gets the input model.
+     * 
+     * @return The input model.
+     */
     @Override
     public InputModel getInputModel() {
         return this.inputModel;
     }
 
+    /**
+     * Gets the graphics model.
+     * 
+     * @return The graphics model.
+     */
     @Override
     public GraphicsModelImpl getGraphicsModel() {
         return this.graphicsModel;
     }
 
+    /**
+     * Gets the list of zones.
+     * 
+     * @return An unmodifiable list of zones.
+     */
     @Override
     public List<Zone> getZones() {
         return Collections.unmodifiableList(this.zones);
     }
 
+    /**
+     * Gets the list of transport lines.
+     * 
+     * @return An unmodifiable list of transport lines.
+     */
     @Override
     public List<TransportLine> getTransportLines() {
         return Collections.unmodifiableList(this.transports);
     }
 
+    /**
+     * Gets the list of businesses.
+     * 
+     * @return An unmodifiable list of businesses.
+     */
     @Override
     public List<Business> getBusinesses() {
         return Collections.unmodifiableList(this.businesses);
     }
 
+    /**
+     * Gets a list of all people in the simulation.
+     * 
+     * @return A list of all people.
+     */
     @Override
     public List<DynamicPerson> getAllPeople() {
         return people.stream()
@@ -224,26 +311,53 @@ public final class CityModelImpl implements CityModel {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Checks if there are people present in the simulation.
+     * 
+     * @return True if people are present, false otherwise.
+     */
     @Override
     public boolean isPeoplePresent() {
         return this.people != null;
     }
 
+    /**
+     * Checks if there are businesses present in the simulation.
+     * 
+     * @return True if businesses are present, false otherwise.
+     */
     @Override
     public boolean isBusinessesPresent() {
         return this.businesses != null;
     }
 
+    /**
+     * Gets the frame width.
+     * 
+     * @return The frame width.
+     */
     @Override
     public int getFrameWidth() {
         return this.frameWidth;
     }
 
+    /**
+     * Gets the frame height.
+     * 
+     * @return The frame height.
+     */
     @Override
     public int getFrameHeight() {
         return this.frameHeight;
     }
 
+    /**
+     * Gets the number of people residing in a given zone.
+     * 
+     * @param zoneName The name of the zone.
+     * @return An Optional containing the number of people in the zone if found,
+     *         otherwise empty.
+     */
     @Override
     public Optional<Integer> getPeopleInZone(final String zoneName) {
         return Optional.ofNullable(people)
@@ -254,6 +368,12 @@ public final class CityModelImpl implements CityModel {
                 .map(Long::intValue);
     }
 
+    /**
+     * Gets the number of businesses in a given zone.
+     * 
+     * @param zoneName The name of the zone.
+     * @return The number of businesses in the zone.
+     */
     @Override
     public int getBusinessesInZone(final String zoneName) {
         return (int) businesses.stream()
@@ -261,24 +381,31 @@ public final class CityModelImpl implements CityModel {
                 .count();
     }
 
+    /**
+     * Removes all businesses from the simulation.
+     */
     @Override
     public void removeBusinesses() {
-        Iterator<Business> iterator = businesses.iterator();
+        final Iterator<Business> iterator = businesses.iterator();
         while (iterator.hasNext()) {
-            Business business = iterator.next();
+            final Business business = iterator.next();
             if (business != null) {
                 iterator.remove();
             }
         }
     }
 
+    /**
+     * Gets a random person from the simulation.
+     * 
+     * @return An Optional containing a random person if found, otherwise empty.
+     */
     @Override
     public Optional<DynamicPerson> getRandomPerson() {
         if (people == null || people.isEmpty()) {
             return Optional.empty();
         }
-        List<DynamicPerson> allPeople = getAllPeople();
-        Random random = new Random();
+        final List<DynamicPerson> allPeople = getAllPeople();
         return Optional.of(allPeople.get(random.nextInt(allPeople.size())));
     }
 }

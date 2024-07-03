@@ -61,15 +61,22 @@ public final class StatisticCalculator {
      *         business
      */
     static List<Integer> getBusinessesOccupation(final List<Business> businesses) {
-        int smallOccupation = calculateBusinessOccupation(businesses, BusinessType.SMALL);
-        int mediumOccupation = calculateBusinessOccupation(businesses, BusinessType.MEDIUM);
-        int bigOccupation = calculateBusinessOccupation(businesses, BusinessType.BIG);
-
-        return Arrays.asList(smallOccupation, mediumOccupation, bigOccupation);
+        return Arrays.asList(
+                calculateBusinessOccupation(businesses, BusinessType.SMALL),
+                calculateBusinessOccupation(businesses, BusinessType.MEDIUM),
+                calculateBusinessOccupation(businesses, BusinessType.BIG));
     }
 
+    /**
+     * Calculates the occupation percentage of businesses of a specific type.
+     *
+     * @param businesses the list of businesses to calculate the occupation for
+     * @param type       the type of business to calculate the occupation for
+     * @return the occupation percentage of businesses of the specified type, or 0
+     *         if no businesses of that type exist
+     */
     private static int calculateBusinessOccupation(final List<Business> businesses, final BusinessType type) {
-        List<Business> filteredBusinesses = businesses.stream()
+        final List<Business> filteredBusinesses = businesses.stream()
                 .filter(business -> business.getBusinessType() == type)
                 .collect(Collectors.toList());
 
@@ -77,12 +84,10 @@ public final class StatisticCalculator {
             return 0;
         }
 
-        double totalOccupation = filteredBusinesses.stream()
+        return (int) filteredBusinesses.stream()
                 .mapToDouble(business -> (double) business.getBusinessData().employees().size()
                         / business.getBusinessData().maxEmployees() * 100)
                 .average()
                 .orElse(0);
-
-        return (int) totalOccupation;
     }
 }

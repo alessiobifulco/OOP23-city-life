@@ -12,6 +12,9 @@ import java.awt.Font;
  */
 public class StyledPanel extends JPanel {
     private static final long serialVersionUID = 1L;
+    private static final int FONT_SIZE = 14;
+    private static final int LINE_BORDER_THICKNESS = 2;
+    private static final int EMPTY_BORDER_PADDING = 10;
     private final Color bgColor;
 
     /**
@@ -22,12 +25,13 @@ public class StyledPanel extends JPanel {
     public StyledPanel(final Color bgColor) {
         this.bgColor = bgColor;
         setLayout(new BorderLayout());
-        final Border lineBorder = BorderFactory.createLineBorder(new Color(183, 193, 195), 2);
-        final Border emptyBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+        final Border lineBorder = BorderFactory.createLineBorder(new Color(183, 193, 195), LINE_BORDER_THICKNESS);
+        final Border emptyBorder = BorderFactory.createEmptyBorder(EMPTY_BORDER_PADDING, EMPTY_BORDER_PADDING,
+                EMPTY_BORDER_PADDING, EMPTY_BORDER_PADDING);
         final Border compoundBorder = BorderFactory.createCompoundBorder(lineBorder, emptyBorder);
         setBorder(compoundBorder);
         setBackground(bgColor);
-        setFont(new Font("Roboto", Font.PLAIN, 14));
+        setFont(new Font("Roboto", Font.PLAIN, FONT_SIZE));
     }
 
     /**

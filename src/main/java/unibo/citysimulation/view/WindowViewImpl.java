@@ -173,7 +173,7 @@ public final class WindowViewImpl extends JFrame implements WindowView {
     }
 
     @Override
-    public void showPersonInfo(String info) {
+    public void showPersonInfo(final String info) {
         JOptionPane.showMessageDialog(this, info, "Person Info", JOptionPane.INFORMATION_MESSAGE);
     }
 }
