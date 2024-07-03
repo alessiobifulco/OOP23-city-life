@@ -4,6 +4,8 @@ import unibo.citysimulation.utilities.Pair;
 import unibo.citysimulation.model.transport.api.TransportLine;
 import unibo.citysimulation.model.zone.Zone;
 
+import java.util.List;
+
 /**
  * Represents a transport line within the city simulation.
  */
@@ -135,5 +137,18 @@ public class TransportLineImpl implements TransportLine {
         if (personInLine > 0) {
             personInLine--;
         }
+    }
+
+    /**
+     * Calculates the average congestion of a list of transport lines.
+     *
+     * @param lines the list of transport lines
+     * @return the average congestion
+     */
+    public static double calculateAverageCongestion(final List<TransportLine> lines) {
+        return lines.stream()
+                .mapToDouble(TransportLine::getCongestion)
+                .average()
+                .orElse(0);
     }
 }

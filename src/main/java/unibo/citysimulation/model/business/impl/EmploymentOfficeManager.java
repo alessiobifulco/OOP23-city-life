@@ -21,6 +21,8 @@ public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
     private final Random random;
     private static final int ZERO = 0;
     private static final LocalTime TIME_ZERO = LocalTime.of(ZERO, ZERO);
+    private static int totalHired = 0;
+    private static int totalFired = 0;
 
     /**
      * Constructs an EmploymentOfficeManager object with the given employment office
@@ -121,6 +123,7 @@ public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
                 person.setBusiness(Optional.of(business));
                 person.setBusinessBegin(business.getBusinessData().openingTime());
                 person.setBusinessEnd(business.getBusinessData().closingTime());
+                totalHired++;
             }
         }
     }
@@ -150,6 +153,7 @@ public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
             employee.person().setBusiness(Optional.empty());
             employee.person().setBusinessBegin(TIME_ZERO);
             employee.person().setBusinessEnd(TIME_ZERO);
+            totalFired++;
         });
     }
 
@@ -164,5 +168,13 @@ public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
             final double pay = business.calculatePay();
             employee.person().addMoney(pay);
         });
+    }
+
+    public static int getTotalHired() {
+        return totalHired;
+    }
+
+    public static int getTotalFired() {
+        return totalFired;
     }
 }
