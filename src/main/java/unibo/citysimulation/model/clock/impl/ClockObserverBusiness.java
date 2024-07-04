@@ -39,6 +39,7 @@ public class ClockObserverBusiness implements ClockObserver {
      * Checks for employee delays, handles employee hiring and payment at the end of
      * the day,
      * and handles employee firing at the start of the day.
+     * and the possible business expansion at the end of the month.
      *
      * @param currentTime the current time in the simulation
      * @param currentDay  the current day in the simulation
@@ -55,7 +56,7 @@ public class ClockObserverBusiness implements ClockObserver {
                 employmentManager.handleEmployeeFiring(business);
             }
         }
-        if(currentDay == END_MONTH) {
+        if (currentDay == END_MONTH) {
             BusinessExpancionLogic.evaluateBusinesses(businesses);
         }
     }

@@ -32,18 +32,14 @@ public final class ReportLogic {
         final double averageCongestion = TransportLineImpl.calculateAverageCongestion(cityModel.getTransportLines());
         final StringBuilder report = new StringBuilder(256);
 
-        report.append("Simulation Report\n")
-                .append("=================\n")
-                .append("Total people: ").append(people.size()).append("\n")
-                .append("Employed people: ").append(employedCount).append("\n")
-                .append("Unemployed people: ").append(unemployedCount).append("\n")
-                .append("Average occupation rate: ")
-                .append(String.format("%.2f", averageOccupationRate * 100)).append("%\n")
-                .append("Total hired: ").append(totalHired).append("\n")
-                .append("Total fired: ").append(totalFired).append("\n")
-                .append("Average transport line congestion: ")
-                .append(String.format("%.2f", averageCongestion)).append("%\n");
-
+        report
+        .append("Simulation Report\n =================\n Total people: ").append(people.size())
+        .append("\n Employed people: ").append(employedCount)
+        .append("\n Unemployed people: ").append(unemployedCount)
+        .append("\n Average occupation rate: ").append(String.format("%.2f", averageOccupationRate * 100))
+        .append("%\n Total hired: ").append(totalHired)
+        .append("\n Total fired: ").append(totalFired)
+        .append("\n Average transport line congestion: ").append(String.format("%.2f", averageCongestion)).append("%\n");
         return report.toString();
     }
 }

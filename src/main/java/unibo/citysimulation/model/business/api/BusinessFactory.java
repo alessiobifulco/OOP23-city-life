@@ -32,5 +32,5 @@ public interface BusinessFactory {
      * @param numberOfPeople the number of people for each business
      * @return the created Business
      */
-    Business createMultipleBusiness(List<Zone> zones, int numberOfPeople);
+    List<Business> createMultipleBusiness(List<Zone> zones, int numberOfPeople);
 }

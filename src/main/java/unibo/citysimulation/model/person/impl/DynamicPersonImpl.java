@@ -33,7 +33,7 @@ public final class DynamicPersonImpl extends StaticPersonImpl implements Dynamic
     private static final Map<PersonState, Integer> STATE_COUNT = new HashMap<>();
     private static final List<DynamicPersonImpl> UNCHANGED_PERSON = new ArrayList<>();
     private static final Map<String, LineCount> LINE_COUNT = new HashMap<>();
-    private static final int END = 86400;
+    private static final int END = 86_400;
 
     /**
      * Constructs a new DynamicPersonImpl object with the given person data, money,
@@ -111,7 +111,7 @@ public final class DynamicPersonImpl extends StaticPersonImpl implements Dynamic
         if (getTransportLine().length == 0) {
             return false;
         }
-        if (currentTime == timeToMove || late || (timeToMove == END && currentTime == 0)) {
+        if (currentTime == timeToMove || late || timeToMove == END && currentTime == 0) {
             if (transportStrategy.isCongested(List.of(getTransportLine()))) {
                 late = true;
                 return false;
@@ -174,7 +174,7 @@ public final class DynamicPersonImpl extends StaticPersonImpl implements Dynamic
      */
     private void handleArrival(final LocalTime currentTime) {
         if (currentTime.toSecondOfDay() == this.lastArrivingTime
-                || (this.lastArrivingTime == END && currentTime.toSecondOfDay() == 0)) {
+                || this.lastArrivingTime == END && currentTime.toSecondOfDay() == 0) {
             this.setState(this.lastDestination);
             updatePosition();
             decrementPersonsInLine();

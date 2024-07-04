@@ -6,18 +6,23 @@ import java.util.Optional;
 import java.util.Random;
 
 import unibo.citysimulation.model.business.api.Business;
+import unibo.citysimulation.model.business.api.BusinessFactory;
 import unibo.citysimulation.model.business.utilities.BusinessType;
 import unibo.citysimulation.model.zone.Zone;
 
 /**
  * A factory class for creating instances of {@link Business}.
  */
-public final class BusinessFactoryImpl {
+public final class BusinessFactoryImpl implements BusinessFactory {
 
     private static final Random RANDOM = new Random();
-    private static int id;
+    private int id;
 
-    private BusinessFactoryImpl() {
+    /**
+     * Construct of the BusinessFactoryImpl class.
+     */
+    public BusinessFactoryImpl() {
+        this.id = 0;
     }
 
     /**
@@ -28,7 +33,8 @@ public final class BusinessFactoryImpl {
      * @return An {@link Optional} containing the created business, or an empty
      *         {@link Optional} if the business type is not supported.
      */
-    public static Optional<Business> createBusiness(final BusinessType type, final Zone zone) {
+    @Override
+    public Optional<Business> createBusiness(final BusinessType type, final Zone zone) {
         return switch (type) {
             case BIG -> Optional.of(new BigBusiness(id++, zone));
             case MEDIUM -> Optional.of(new MediumBusiness(id++, zone));
@@ -44,7 +50,8 @@ public final class BusinessFactoryImpl {
      * @return An {@link Optional} containing the created business, or an empty
      *         {@link Optional} if no zones are provided.
      */
-    public static Optional<Business> createRandomBusiness(final List<Zone> zones) {
+    @Override
+    public Optional<Business> createRandomBusiness(final List<Zone> zones) {
         final BusinessType type = BusinessType.values()[RANDOM.nextInt(BusinessType.values().length)];
         final Zone zone = zones.get(RANDOM.nextInt(zones.size()));
         return createBusiness(type, zone);
@@ -58,7 +65,8 @@ public final class BusinessFactoryImpl {
      * @param numberOfBusinesses The number of businesses to create.
      * @return A list of created businesses.
      */
-    public static List<Business> createMultipleBusiness(final List<Zone> zones, final int numberOfBusinesses) {
+    @Override
+    public List<Business> createMultipleBusiness(final List<Zone> zones, final int numberOfBusinesses) {
         final List<Business> businesses = new ArrayList<>();
         for (int i = 0; i < numberOfBusinesses; i++) {
             createRandomBusiness(zones).ifPresent(businesses::add);

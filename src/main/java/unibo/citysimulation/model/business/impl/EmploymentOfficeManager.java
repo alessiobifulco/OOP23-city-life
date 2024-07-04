@@ -21,8 +21,8 @@ public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
     private final Random random;
     private static final int ZERO = 0;
     private static final LocalTime TIME_ZERO = LocalTime.of(ZERO, ZERO);
-    private static int totalHired = 0;
-    private static int totalFired = 0;
+    private static int totalHired;
+    private static int totalFired;
 
     /**
      * Constructs an EmploymentOfficeManager object with the given employment office
@@ -170,10 +170,20 @@ public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
         });
     }
 
+    /**
+     * Returns the total number of employees hired by the employment office.
+     *
+     * @return the total number of employees hired
+     */
     public static int getTotalHired() {
         return totalHired;
     }
 
+    /**
+     * Returns the total number of employees fired by the employment office.
+     *
+     * @return the total number of employees fired
+     */
     public static int getTotalFired() {
         return totalFired;
     }

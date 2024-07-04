@@ -20,11 +20,11 @@ public final class BusinessExpancionLogic {
      * and those to be expanded (100% occupation).
      *
      * @param allBusinesses the list of all businesses
-     * @refinal turn a Pair containing two lists: first with businesses to be closed, second with businesses to be expanded
+     * @return a Pair containing two lists: first with businesses to be closed, second with businesses to be expanded
      */
     public static Pair<List<Business>, List<Business>> evaluateBusinesses(final List<Business> allBusinesses) {
         final List<Business> businessesToClose = new ArrayList<>();
-        List<Business> businessesToExpand = new ArrayList<>();
+        final List<Business> businessesToExpand = new ArrayList<>();
 
         allBusinesses.forEach(business -> {
             final double occupationRate = calculateOccupationRate(business);

@@ -2,6 +2,7 @@ package unibo.citysimulation.model;
 
 import unibo.citysimulation.model.business.utilities.EmploymentOfficeData;
 import unibo.citysimulation.model.business.api.Business;
+import unibo.citysimulation.model.business.api.BusinessFactory;
 import unibo.citysimulation.model.business.impl.BusinessFactoryImpl;
 import unibo.citysimulation.model.clock.api.ClockModel;
 import unibo.citysimulation.model.clock.impl.ClockModelImpl;
@@ -82,7 +83,6 @@ public final class CityModelImpl implements CityModel {
      */
     @Override
     public void createEntities(final int extraBusinesses) {
-        
         graphicsModel.clearDatasets();
 
         transports = new TransportFactoryImpl().createTransportsFromFile(zones);
@@ -95,8 +95,9 @@ public final class CityModelImpl implements CityModel {
         if (extraBusinesses > 0) {
             numberOfBusinesses += extraBusinesses;
         }
+        final BusinessFactory businessFactory = new BusinessFactoryImpl();
+        businesses = businessFactory.createMultipleBusiness(zones, numberOfBusinesses);
 
-        businesses = BusinessFactoryImpl.createMultipleBusiness(zones, numberOfBusinesses);
 
         this.people = new ArrayList<>();
         people = new PersonFactoryImpl().createAllPeople(getInputModel().getNumberOfPeople(), zones, businesses);

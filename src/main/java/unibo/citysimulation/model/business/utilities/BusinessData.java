@@ -2,6 +2,7 @@ package unibo.citysimulation.model.business.utilities;
 
 import java.time.LocalTime;
 import java.util.List;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import unibo.citysimulation.model.business.impl.Employee;
 import unibo.citysimulation.model.zone.Zone;
@@ -26,17 +27,19 @@ import unibo.citysimulation.utilities.Pair;
  * @param zone         The zone where the business is located.
  * @param businessType The type of the business.
  */
+@SuppressFBWarnings(value = "EI", justification = """
+        The class is immutable, so the mutable fields are safe to be passed as parameters.""")
 public record BusinessData(
-                int id,
-                List<Employee> employees,
-                LocalTime openingTime,
-                LocalTime closingTime,
-                double revenue,
-                int maxEmployees,
-                Pair<Integer, Integer> position,
-                int minAge,
-                int maxAge,
-                int maxTardiness,
-                Zone zone,
-                BusinessType businessType) {
+        int id,
+        List<Employee> employees,
+        LocalTime openingTime,
+        LocalTime closingTime,
+        double revenue,
+        int maxEmployees,
+        Pair<Integer, Integer> position,
+        int minAge,
+        int maxAge,
+        int maxTardiness,
+        Zone zone,
+        BusinessType businessType) {
 }

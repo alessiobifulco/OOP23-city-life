@@ -12,7 +12,7 @@ import unibo.citysimulation.utilities.Pair;
  * Represents an employee in the city simulation.
  */
 @SuppressFBWarnings(value = "EI", justification = """
-        """)
+    The class is immutable, so the mutable fields are safe to be passed as parameters.""")
 public final class Employee implements EmployeeBehavior {
     private final DynamicPerson person;
     private final BusinessData businessData;
@@ -35,6 +35,7 @@ public final class Employee implements EmployeeBehavior {
      * 
      * @return The dynamic person.
      */
+    @Override
     public DynamicPerson person() {
         return this.person;
     }
@@ -44,6 +45,7 @@ public final class Employee implements EmployeeBehavior {
      * 
      * @return The business data.
      */
+    @Override
     public BusinessData businessData() {
         return this.businessData;
     }
@@ -53,6 +55,7 @@ public final class Employee implements EmployeeBehavior {
      * 
      * @return The delay count.
      */
+    @Override
     public int count() {
         return this.count;
     }

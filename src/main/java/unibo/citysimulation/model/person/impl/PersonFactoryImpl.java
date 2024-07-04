@@ -69,7 +69,6 @@ public final class PersonFactoryImpl implements PersonFactory {
             people.add(person);
         }
         for (final DynamicPerson person : people) {
-            boolean hired = false;
             for (final Business business : businesses) {
                 if (person.getPersonData().age() >= business.getBusinessData().minAge()
                         && person.getPersonData().age() <= business.getBusinessData().maxAge()
@@ -79,12 +78,8 @@ public final class PersonFactoryImpl implements PersonFactory {
                     person.setBusiness(Optional.of(business));
                     person.setBusinessBegin(business.getBusinessData().openingTime());
                     person.setBusinessEnd(business.getBusinessData().closingTime());
-                    hired = true;
                     break;
                 }
-            }
-            if (hired) {
-                continue;
             }
         }
         return people;

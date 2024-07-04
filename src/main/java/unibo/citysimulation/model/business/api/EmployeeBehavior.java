@@ -2,6 +2,8 @@ package unibo.citysimulation.model.business.api;
 
 import java.util.Optional;
 
+import unibo.citysimulation.model.business.utilities.BusinessData;
+import unibo.citysimulation.model.person.api.DynamicPerson;
 import unibo.citysimulation.utilities.Pair;
 
 /**
@@ -21,4 +23,24 @@ public interface EmployeeBehavior {
      * @return True if the employee is late, false otherwise.
      */
     boolean isLate(Optional<Pair<Integer, Integer>> businessPosition);
+     /**
+     * Gets the dynamic person associated with the employee.
+     * 
+     * @return The dynamic person.
+     */
+    DynamicPerson person();
+
+    /**
+     * Gets the business data associated with the employee.
+     * 
+     * @return The business data.
+     */
+    BusinessData businessData();
+
+    /**
+     * Gets the delay count of the employee.
+     * 
+     * @return The delay count.
+     */
+    int count();
 }
