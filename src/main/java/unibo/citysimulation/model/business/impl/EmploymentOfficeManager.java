@@ -44,7 +44,9 @@ public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
     public final void handleEmployeeFiring(final Business business) {
         final List<Employee> employeesToFire = getEmployeesToFire(business);
         final int numToFire = random.nextInt(employeesToFire.size() + 1);
-        fireEmployees(business, employeesToFire.stream().limit(numToFire).collect(Collectors.toList()));
+        fireEmployees(business, employeesToFire.stream()
+                .limit(numToFire)
+                .collect(Collectors.toList()));
     }
 
     /**
@@ -58,7 +60,9 @@ public class EmploymentOfficeManager implements EmploymentOfficeBehavior {
             final Optional<List<DynamicPerson>> peopleToHire = getPeopleToHire(business);
             if (peopleToHire.isPresent()) {
                 final int numToHire = random.nextInt(peopleToHire.get().size() + 1);
-                hirePeople(business, peopleToHire.get().stream().limit(numToHire).collect(Collectors.toList()));
+                hirePeople(business, peopleToHire.get().stream()
+                        .limit(numToHire)
+                        .collect(Collectors.toList()));
             } else {
                 break;
             }
