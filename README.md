@@ -1,41 +1,54 @@
-# City-Simulation: Simulazione Urbana Agent-Based
-Progetto per il corso di Programmazione Orientata agli Oggetti (OOP), sviluppato in Java seguendo il pattern architetturale MVC.
+# City-Simulation: Urban Agent-Based Simulation
+
+**Project for the Object-Oriented Programming (OOP) course**, developed in **Java** following the **MVC architectural pattern**.
 
 ---
 
-## Concetto di Base
-Questo progetto consiste in una simulazione basata su agenti (Agent-Based Model) per l'osservazione delle dinamiche di un ecosistema urbano nel tempo. L'obiettivo è modellare il comportamento di una città, con un focus sul traffico, rapporto tra persone e aziende e divisione in zone.
+## Core Concept
 
-* **Ambiente:** La città, composta da strade e aziende.
-* **Agenti:** Le persone, ogni agente ha degli obiettivi e prende decisioni.
-* **Infrastrutture:** Aziende che offrono posti di lavoro e linee di trasporto pubblico che gli agenti possono utilizzare per i loro spostamenti.
+This project is an **agent-based simulation** for observing the dynamics of an urban ecosystem over time.  
+The goal is to model city behavior, focusing on traffic, the relationship between people and businesses, and zoning.
 
-## Architettura del Software (MVC)
-L'applicazione è stata progettata seguendo il pattern architetturale **Model-View-Controller (MVC)**, un modello per lo sviluppo di interfacce utente che suddivide un'applicazione in tre parti interconnesse.
+The platform models the city’s dynamic elements, including:
 
-* **Model:** È la componente centrale che gestisce i dati e la logica di business dell'applicazione. È responsabile di mantenere lo stato e di applicare le regole, indipendentemente dall'interfaccia utente.
-* **View:** Si occupa di presentare i dati all'utente. Rende visibile lo stato del Model e fornisce l'interfaccia grafica con cui l'utente interagisce.
-* **Controller:** Riceve l'input dell'utente dalla View e lo traduce in azioni da far eseguire al Model, agendo come intermediario tra i due.
+- **Environment:** The city, composed of streets and businesses.  
+- **Agents:** People, each with goals who make decisions.  
+- **Infrastructure:** Businesses providing jobs and public transportation lines used by agents.  
 
-## Design Pattern Utilizzati
-Per la progettazione del software sono stati utilizzati diversi design pattern per migliorare la flessibilità e la manutenibilità del codice.
+---
 
-* **Factory Method:** Un pattern creazionale che fornisce un'interfaccia per creare oggetti in una superclasse, ma permette alle sottoclassi di alterare il tipo di oggetti che verranno creati.
-* **Strategy:** Un pattern comportamentale che permette di definire una famiglia di algoritmi, incapsularli e renderli intercambiabili. Consente di variare l'algoritmo utilizzato da un oggetto indipendentemente dai client che lo utilizzano.
-* **Observer:** Un pattern comportamentale in cui un oggetto (il "soggetto") mantiene una lista dei suoi dipendenti (gli "osservatori") e li notifica automaticamente di qualsiasi cambiamento al suo stato.
-* **Decorator:** Un pattern strutturale che consente di aggiungere nuove funzionalità a un oggetto dinamicamente, senza alterare il comportamento degli altri oggetti della stessa classe.
+## Software Architecture (MVC)
 
-## Tecnologie e Funzionalità Chiave
-* **Linguaggio: Java**
-    * Linguaggio di programmazione ad alto livello, orientato agli oggetti e basato su classi.
-* **GUI: (specificare qui la libreria usata, es. JavaFX o Swing)**
-* **Lambda Expressions**
-    * Una funzionalità che permette di trattare una funzione come un argomento di un metodo, o di scrivere codice come se fosse un dato. Permettono di creare funzioni anonime e concise.
-* **Streams API**
-    * Un'interfaccia per eseguire operazioni in stile funzionale su sequenze di elementi, come le collezioni. Permette di scrivere codice per l'elaborazione dei dati in modo dichiarativo e compatto.
-* **Optional**
-    * Un tipo contenitore utilizzato per rappresentare la presenza o l'assenza di un valore. Aiuta a prevenire errori `NullPointerException` forzando una gestione esplicita dei casi in cui un valore potrebbe non esistere.
+The application was designed using the **Model-View-Controller (MVC)** pattern, which divides an application into three interconnected components:
+
+- **Model:** Manages application data and business logic. Maintains state and enforces rules independently of the interface.  
+- **View:** Presents data to the user, showing the Model's state and providing the graphical interface for interaction.  
+- **Controller:** Receives user input from the View and translates it into actions for the Model. Acts as an intermediary between the two.  
+
+---
+
+## Design Patterns Used
+
+The software design incorporates several patterns to improve **flexibility** and **maintainability**:
+
+- **Factory Method:** Provides an interface to create objects in a superclass while allowing subclasses to alter the type of objects created.  
+- **Strategy:** Defines a family of algorithms, encapsulates them, and makes them interchangeable. Allows objects to change behavior independently of clients.  
+- **Observer:** The subject maintains a list of observers and automatically notifies them of any state changes.  
+- **Decorator:** Dynamically adds functionality to objects without altering the behavior of other objects of the same class.  
+
+---
+
+## Technologies and Key Features
+
+- **Language:** Java — high-level, object-oriented, class-based.  
+- **GUI:** (specify library used, e.g., JavaFX or Swing)  
+- **Lambda Expressions:** Enable concise, anonymous functions and treating functions as method arguments.  
+- **Streams API:** Provides a functional-style interface for processing sequences of elements, allowing declarative and compact data handling.  
+- **Optional:** Represents the presence or absence of a value, enforcing explicit handling and preventing `NullPointerException`.  
+
+---
+
+## Contact
 
 ## Contatti
 * Alessio Bifulco: `alessio.bifulco@studio.unibo.it`
-
